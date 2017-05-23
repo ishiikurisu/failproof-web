@@ -1,11 +1,11 @@
-(ns failproof-server.handler
+(ns br.eng.crisjr.failproof.server.handler
   (:require [compojure.core :refer [routes wrap-routes]]
-            [failproof-server.layout :refer [error-page]]
-            [failproof-server.routes.home :refer [home-routes]]
+            [br.eng.crisjr.failproof.server.layout :refer [error-page]]
+            [br.eng.crisjr.failproof.server.routes.home :refer [home-routes]]
             [compojure.route :as route]
-            [failproof-server.env :refer [defaults]]
+            [br.eng.crisjr.failproof.server.env :refer [defaults]]
             [mount.core :as mount]
-            [failproof-server.middleware :as middleware]))
+            [br.eng.crisjr.failproof.server.middleware :as middleware]))
 
 (mount/defstate init-app
                 :start ((or (:init defaults) identity))

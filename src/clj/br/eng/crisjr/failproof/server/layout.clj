@@ -1,4 +1,4 @@
-(ns failproof-server.layout
+(ns br.eng.crisjr.failproof.server.layout
   (:require [selmer.parser :as parser]
             [selmer.filters :as filters]
             [markdown.core :refer [md-to-html-string]]

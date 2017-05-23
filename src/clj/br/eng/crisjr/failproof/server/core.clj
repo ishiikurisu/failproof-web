@@ -1,8 +1,8 @@
-(ns failproof-server.core
-  (:require [failproof-server.handler :as handler]
+(ns br.eng.crisjr.failproof.server.core
+  (:require [br.eng.crisjr.failproof.server.handler :as handler]
             [luminus.repl-server :as repl]
             [luminus.http-server :as http]
-            [failproof-server.config :refer [env]]
+            [br.eng.crisjr.failproof.server.config :refer [env]]
             [clojure.tools.cli :refer [parse-opts]]
             [clojure.tools.logging :as log]
             [mount.core :as mount])

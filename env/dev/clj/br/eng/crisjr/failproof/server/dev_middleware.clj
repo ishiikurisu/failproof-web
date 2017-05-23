@@ -1,4 +1,4 @@
-(ns failproof-server.dev-middleware
+(ns br.eng.crisjr.failproof.server.dev-middleware
   (:require [ring.middleware.reload :refer [wrap-reload]]
             [selmer.middleware :refer [wrap-error-page]]
             [prone.middleware :refer [wrap-exceptions]]))

@@ -1,4 +1,4 @@
-(defproject failproof-server "0.1.0-SNAPSHOT"
+(defproject br.eng.crisjr.failproof.server "0.1.0-SNAPSHOT"
 
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
@@ -34,7 +34,7 @@
   :test-paths ["test/clj"]
   :resource-paths ["resources"]
   :target-path "target/%s/"
-  :main ^:skip-aot failproof-server.core
+  :main ^:skip-aot br.eng.crisjr.failproof.server.core
 
   :plugins [[lein-cprop "1.0.3"]
             [lein-immutant "2.1.0"]]
@@ -42,7 +42,7 @@
   :profiles
   {:uberjar {:omit-source true
              :aot :all
-             :uberjar-name "failproof-server.jar"
+             :uberjar-name "br.eng.crisjr.failproof.server.jar"
              :source-paths ["env/prod/clj"]
              :resource-paths ["env/prod/resources"]}
 
@@ -54,7 +54,7 @@
                                  [ring/ring-devel "1.5.1"]
                                  [pjstadig/humane-test-output "0.8.1"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.19.0"]]
-                  
+
                   :source-paths ["env/dev/clj"]
                   :resource-paths ["env/dev/resources"]
                   :repl-options {:init-ns user}

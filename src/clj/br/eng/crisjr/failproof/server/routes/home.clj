@@ -1,5 +1,5 @@
-(ns failproof-server.routes.home
-  (:require [failproof-server.layout :as layout]
+(ns br.eng.crisjr.failproof.server.routes.home
+  (:require [br.eng.crisjr.failproof.server.layout :as layout]
             [compojure.core :refer [defroutes GET]]
             [ring.util.http-response :as response]
             [clojure.java.io :as io]))
@@ -14,4 +14,3 @@
 (defroutes home-routes
   (GET "/" [] (home-page))
   (GET "/about" [] (about-page)))
-

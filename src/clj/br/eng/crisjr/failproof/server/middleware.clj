@@ -1,11 +1,11 @@
-(ns failproof-server.middleware
-  (:require [failproof-server.env :refer [defaults]]
+(ns br.eng.crisjr.failproof.server.middleware
+  (:require [br.eng.crisjr.failproof.server.env :refer [defaults]]
             [clojure.tools.logging :as log]
-            [failproof-server.layout :refer [*app-context* error-page]]
+            [br.eng.crisjr.failproof.server.layout :refer [*app-context* error-page]]
             [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
             [ring.middleware.webjars :refer [wrap-webjars]]
             [muuntaja.middleware :refer [wrap-format wrap-params]]
-            [failproof-server.config :refer [env]]
+            [br.eng.crisjr.failproof.server.config :refer [env]]
             [ring.middleware.flash :refer [wrap-flash]]
             [immutant.web.middleware :refer [wrap-session]]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]])

@@ -1,7 +1,7 @@
-(ns failproof-server.env
+(ns br.eng.crisjr.failproof.server.env
   (:require [selmer.parser :as parser]
             [clojure.tools.logging :as log]
-            [failproof-server.dev-middleware :refer [wrap-dev]]))
+            [br.eng.crisjr.failproof.server.dev-middleware :refer [wrap-dev]]))
 
 (def defaults
   {:init

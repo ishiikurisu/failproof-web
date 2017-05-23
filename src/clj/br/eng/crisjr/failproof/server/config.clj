@@ -1,4 +1,4 @@
-(ns failproof-server.config
+(ns br.eng.crisjr.failproof.server.config
   (:require [cprop.core :refer [load-config]]
             [cprop.source :as source]
             [mount.core :refer [args defstate]]))

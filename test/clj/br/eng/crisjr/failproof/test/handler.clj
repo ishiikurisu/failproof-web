@@ -1,7 +1,7 @@
-(ns failproof-server.test.handler
+(ns br.eng.crisjr.failproof.test.handler
   (:require [clojure.test :refer :all]
             [ring.mock.request :refer :all]
-            [failproof-server.handler :refer :all]))
+            [br.eng.crisjr.failproof.server.handler :refer :all]))
 
 (deftest test-app
   (testing "main route"
