@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  {% for title in titles %}
+    <p>
+      {{title}}
+    </p>
+  {% endfor %}
+</div>
+{% endblock %}
