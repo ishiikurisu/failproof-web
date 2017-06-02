@@ -1,4 +1,4 @@
-(ns failproof-server.env
+(ns br.eng.crisjr.failproof.server.env
   (:require [clojure.tools.logging :as log]))
 
 (def defaults

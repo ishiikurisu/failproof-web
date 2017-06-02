@@ -44,7 +44,7 @@
              :aot :all
              :uberjar-name "br.eng.crisjr.failproof.server.jar"
              :source-paths ["env/prod/clj"]
-             :resource-paths ["env/prod/resources"]}
+             :resource-paths ["resources"]}
 
    :dev           [:project/dev :profiles/dev]
    :test          [:project/dev :project/test :profiles/test]
