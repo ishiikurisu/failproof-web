@@ -25,7 +25,8 @@
                  [ring-webjars "0.1.1"]
                  [ring/ring-core "1.6.0"]
                  [ring/ring-defaults "0.3.0"]
-                 [selmer "1.10.7"]]
+                 [selmer "1.10.7"]
+                 [br.eng.crisjr.failproof "0.2.2"]]
 
   :min-lein-version "2.0.0"
 
