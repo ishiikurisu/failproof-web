@@ -1,7 +1,9 @@
 (defproject br.eng.crisjr.failproof.server "0.1.0-SNAPSHOT"
 
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "Failproof Checklists Web App"
+  :url "http://www.crisjr.eng.br/garage"
+  :license {:name "Beerware 42"
+            :url "http://people.freebsd.org/~phk"}
 
   :dependencies [[clj-time "0.13.0"]
                  [compojure "1.6.0"]
