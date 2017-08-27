@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row">
-  {% for title in titles %}
-    <p>
-      {{title}}
-    </p>
-  {% endfor %}
+  <ul>
+    {% for title, link in stuff %}
+    <li><a href="/preview?link={{link}}">{{title}}</a></li>
+    {% endfor %}
+  </ul>
 </div>
 {% endblock %}
