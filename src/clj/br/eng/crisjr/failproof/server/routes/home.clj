@@ -29,7 +29,11 @@
         (layout/render "checklists.html" {:stuff stuff}))))
 
 (defn preview-page [link]
-  (layout/render "preview.html" {:content (tools/get-list link)}))
+  (let [checklist (tools/get-list link)
+        title (tools/get-title checklist)
+        items (tools/get-items checklist)]
+       (layout/render "preview.html" {:title title
+                                      :items items})))
 
 (defroutes home-routes
   (GET "/" [] (home-page))
