@@ -1,15 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row">
-  <h1>{{title}}</h1>
-  <ul>
-      {% for item in items %}
-      <li>{{item}}</li>
-      {% endfor %}
-  </ul>
-  <p>
-      <a href="#">Add</a>
-      <a href="#">Back</a>
-  </p>
+<div class="container">
+    <div class="card h-100">
+        <div class="card-body">
+            <h4 class="card-title cl-title">{{title}}</h1>
+            <ul>
+                {% for item in items %}
+                <li>{{item}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <br>
+    <p>
+        <a role="button" href="/" class="btn btn-primary bg-dark">Add</a>
+        <a role="button" href="/checklists" class="btn btn-primary bg-dark">Back</a>
+    </p>
 </div>
 {% endblock %}
