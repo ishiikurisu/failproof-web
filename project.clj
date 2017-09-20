@@ -9,6 +9,7 @@
                  [compojure "1.6.0"]
                  [cprop "0.1.10"]
                  [funcool/struct "1.0.0"]
+                 [lein-clojurescript "1.1.0"]
                  [luminus-immutant "0.2.3"]
                  [luminus-nrepl "0.1.4"]
                  [luminus/ring-ttl-session "0.3.2"]
@@ -35,11 +36,12 @@
   :jvm-opts ["-server" "-Dconf=.lein-env"]
   :source-paths ["src/clj"]
   :test-paths ["test/clj"]
-  :resource-paths ["resources"]
+  :resource-paths ["resources" "target/cljsbuild"]
   :target-path "target/%s/"
-  :main ^:skip-aot br.eng.crisjr.failproof.server.core
+  :main ^:skip-aot br.eng.crisjr.failproof.server.core 
 
   :plugins [[lein-cprop "1.0.3"]
+            [lein-cljsbuild "1.1.3"]
             [lein-immutant "2.1.0"]]
 
   :profiles
@@ -47,6 +49,7 @@
              :aot :all
              :uberjar-name "br.eng.crisjr.failproof.server.jar"
              :source-paths ["env/prod/clj"]
+             :prep-tasks ["compile" ["cljsbuild" "once" "min"]]
              :resource-paths ["resources"]}
 
    :dev           [:project/dev :profiles/dev]
@@ -65,4 +68,19 @@
                                (pjstadig.humane-test-output/activate!)]}
    :project/test {:resource-paths ["env/test/resources"]}
    :profiles/dev {}
-   :profiles/test {}})
+   :profiles/test {}}
+
+   :cljsbuild
+   {:builds {:app {:source-paths ["src/cljs"]
+                   :compiler {:main          "br.eng.crisjr.failproof.server.app"
+                              :asset-path    "/js/out"
+                              :output-to     "target/cljsbuild/public/js/app.js"
+                              :output-dir    "target/cljsbuild/public/js/out"
+                              :optimizations :none
+                              :source-map    true
+                              :pretty-print  true}}
+             :min {:source-paths ["src/cljs"]
+                   :compiler {:output-to     "target/cljsbuild/public/js/app.js"
+                              :output-dir    "target/uberjar"
+                              :optimizations :advanced
+                              :pretty-print  false}}}})
