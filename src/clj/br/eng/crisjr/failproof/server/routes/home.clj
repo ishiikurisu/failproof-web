@@ -33,6 +33,7 @@
         title (tools/get-title checklist)
         items (tools/get-items checklist)]
        (layout/render "preview.html" {:title title
+                                      :checklist checklist
                                       :items items})))
 
 (defroutes home-routes

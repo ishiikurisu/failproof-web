@@ -4,9 +4,12 @@
 (defn ^:export hi []
     (js/alert "cheers, love! calvary is coming!"))
 
-(defn ^:export check []
-    (js/alert (str "your cookie is <" (cookie/fix-cookie-value (cookie/get-cookie "nope")) ">")))
+(defn ^:export check [what]
+    (js/alert (str "your cookie is <" (cookie/fix-cookie-value (cookie/get-cookie what)) ">")))
 
 (defn ^:export add []
     (do (cookie/set-cookie! "count" 10)
         (check)))
+
+(defn ^:export store [checklist]
+    (cookie/set-cookie! "checklist" checklist))
