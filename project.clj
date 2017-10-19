@@ -1,7 +1,7 @@
 (defproject br.eng.crisjr.failproof.server "0.1.0-SNAPSHOT"
 
   :description "Failproof Checklists Web App"
-  :url "http://www.crisjr.eng.br/garage"
+  :url "http://failproof.herokuapp.com"
   :license {:name "Beerware 42"
             :url "http://people.freebsd.org/~phk"}
 
@@ -38,7 +38,7 @@
   :test-paths ["test/clj"]
   :resource-paths ["resources" "target/cljsbuild"]
   :target-path "target/%s/"
-  :main ^:skip-aot br.eng.crisjr.failproof.server.core 
+  :main ^:skip-aot br.eng.crisjr.failproof.server.core
 
   :plugins [[lein-cprop "1.0.3"]
             [lein-cljsbuild "1.1.3"]
