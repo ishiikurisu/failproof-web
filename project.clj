@@ -72,7 +72,7 @@
 
    :cljsbuild
    {:builds {:app {:source-paths ["src/cljs"]
-                   :compiler {:main          "br.eng.crisjr.failproof.server.app"
+                   :compiler {:main          (str project-ns ".app")
                               :asset-path    "/js/out"
                               :output-to     "target/cljsbuild/public/js/app.js"
                               :output-dir    "target/cljsbuild/public/js/out"

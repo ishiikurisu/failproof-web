@@ -1,15 +1,20 @@
 (ns br.eng.crisjr.failproof.server.app
-    (:require [br.eng.crisjr.failproof.server.cookie :as cookie]))
+    (:require [goog.net.cookies]))
 
-(defn ^:export hi []
-    (js/alert "cheers, love! calvary is coming!"))
+;; COOKIES
+(defn get-cookie
+    [tag]
+    (.get goog.net.cookies tag nil))
 
-(defn ^:export check [what]
-    (.log js/console (str "your cookie is <" (cookie/get-cookie what) ">")))
+(defn set-cookie!
+    [tag value]
+    (.set goog.net.cookies tag value -1))
 
+
+;; MAIN
 (defn ^:export store [tag checklist]
-    (cookie/set-cookie! tag checklist))
+    (set-cookie! tag checklist))
 
-(defn ^:export drawindex []
-    (let [data (cookie/get-cookie "checklists")]
-      (.log js/console data)))
+(defn ^:export home []
+    (let [data (get-cookie "checklist")]
+      (.log js/console (if (nil? data) "nothing found" data))))
