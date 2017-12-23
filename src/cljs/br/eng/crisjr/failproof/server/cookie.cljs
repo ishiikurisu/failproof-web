@@ -15,11 +15,6 @@
     [tag value]
     (.set goog.net.cookies tag value -1))
 
-; (defn ^:export fix-cookie-value
-;     [value]
-;     (if (str/ends-with? value "\")")
-;         (str/replace value #"\")" "")
-;         value))
 (defn fix-cookie-value
     [value]
     (str/replace value "\")" ""))

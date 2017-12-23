@@ -5,11 +5,11 @@
     (js/alert "cheers, love! calvary is coming!"))
 
 (defn ^:export check [what]
-    (js/alert (str "your cookie is <" (cookie/fix-cookie-value (cookie/get-cookie what)) ">")))
+    (.log js/console (str "your cookie is <" (cookie/get-cookie what) ">")))
 
-(defn ^:export add []
-    (do (cookie/set-cookie! "count" 10)
-        (check)))
+(defn ^:export store [tag checklist]
+    (cookie/set-cookie! tag checklist))
 
-(defn ^:export store [checklist]
-    (cookie/set-cookie! "checklist" checklist))
+(defn ^:export drawindex []
+    (let [data (cookie/get-cookie "checklists")]
+      (.log js/console data)))

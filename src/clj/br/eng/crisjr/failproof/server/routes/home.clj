@@ -9,8 +9,7 @@
   (layout/render "home.html" ))
 
 (defn about-page []
-  (layout/render
-    "about.html" {:docs (-> "docs/docs.md" io/resource slurp)}))
+  (layout/render "about.html" {:docs (-> "docs/docs.md" io/resource slurp)}))
 
 (defn checklists-page []
   (let [id-list (tools/get-lists)
@@ -25,7 +24,7 @@
                            limit
                            (conj box (vector (nth titles i)
                                              (nth links i))))))]
-    (do (println stuff)
+    (do ;;(println stuff)
         (layout/render "checklists.html" {:stuff stuff}))))
 
 (defn preview-page [link]

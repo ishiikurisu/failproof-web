@@ -13,8 +13,16 @@
     </div>
     <br>
     <p>
-        <a role="button" href="/" onclick="br.eng.crisjr.failproof.server.app.store('{{checklist|safe}}')" class="btn btn-primary bg-dark">Add</a>
+        <a role="button" href="/" onclick="store('checklist', '{{checklist|safe}}')" class="btn btn-primary bg-dark">Add</a>
         <a role="button" href="/checklists" class="btn btn-primary bg-dark">Back</a>
     </p>
 </div>
+{% endblock %}
+
+{% block page-scripts %}
+<script type="text/javascript">
+function store(tag, what) {
+    br.eng.crisjr.failproof.server.app.store(tag, what);
+}
+</script>
 {% endblock %}

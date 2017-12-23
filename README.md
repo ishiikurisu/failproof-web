@@ -15,5 +15,9 @@ To start a web server for the application just like it is ran on the real server
 
     lein run
 
+while developing, it is a good idea to keep another tab on background running:
+
+    lein cljsbuild auto
+
 [1]: https://github.com/technomancy/leiningen
 [2]: https://failproof.herokuapp.com/
