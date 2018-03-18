@@ -5,8 +5,9 @@
 {% endblock %}
 
 {% block page-scripts %}
+{% script "/js/home.js" %}
 <script type="text/javascript">
-    console.log(br.eng.crisjr.failproof.server.app);
-    br.eng.crisjr.failproof.server.app.home();
+checklists = getCookie("checklists");
+drawChecklists(checklists);
 </script>
 {% endblock %}
