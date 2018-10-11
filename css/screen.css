@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=ABeeZee');
+@import url('https://fonts.googleapis.com/css?family=Architects+Daughter');
+
+body {
+  padding-top: 54px;
+  background-color: #916953;
+  font-family: "ABeeZee", sans-serif;
+}
+
+.navbar-brand {
+  font-family: 'Architects Daughter', cursive;
+}
+
+.cl-title {
+  color: #CF8E80;
+}
+
+.cl-title:hover,
+.cl-title:clicked {
+  color: #CF8E80;
+}
+
+#content p {
+    color: #CF8E80;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+  }
+}
