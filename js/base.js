@@ -1,7 +1,3 @@
-function getChecklists() {
-    return [ ];
-}
-
 $(document).ready(function() {
     var checklists = getChecklists();
     if (checklists.length === 0) {
