@@ -15,6 +15,7 @@ function getChecklists() {
 
 /**
  * Adds a checklist to the memory.
+ * @param checklist a checklist string
  */
 function addChecklist(checklist) {
     setCookie('checklists', JSON.stringify(getChecklists().concat(checklist)));
@@ -24,14 +25,28 @@ function addChecklist(checklist) {
  * Turns a checklist object into a string.
  */
 function checklistToString(raw) {
-    var outlet = raw.title + '\n';
-    var items = raw.items;
+    return JSON.stringify(raw);
+}
 
-    for (var i = 0; i < items.length; i++) {
-        var item = items[i];
-        outlet += (item.checked)? '[-] ' : '[ ] ';
-        outlet += item.title + '\n';
-    }
+/**
+ * Parses a string into a checklist
+ * @param s the string object containing a checklist object.
+ */
+function stringToChecklist(s) {
+    return JSON.parse(s);
+}
 
-    return outlet;
+/**
+ * Creates an empty checklist
+ */
+function getEmptyChecklist() {
+    return {
+        "title": "New checklist",
+        "items": [
+            {
+                "title": "First item",
+                "checked": false
+            }
+        ]
+    };
 }
