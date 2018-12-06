@@ -14,38 +14,34 @@
 
   <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="/">Failproof Checklists</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
+    <div id="nav">
+      <div class="navbar navbar-inverse">
+        <div class="container">
+          <ul class="nav mr-auto" id="navbar-list">
             <li class="nav-item">
-              <a class="nav-link" href="/checklists/index.html">Checklists</a>
+              <a class="navbar-brand brand nav-link" href="/">Failproof Checklists</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/about.html">About</a>
+            <li class="nav-item active">
+              <a class="nav-link" href="/checklists.html">Checklists</a>
             </li>
           </ul>
         </div>
       </div>
-    </nav>
-
-    <br><br><br>
-
-    <!-- Page Content -->
-    <div class="container" id="content">
     </div>
 
+    <!-- content -->
+    <div class="container">
+      <br/>
+      <div class="card-columns" id="content">
+
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer class="py-5">
       <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; Cris Silva Jr. 2016</p>
       </div>
-    </footer>
 
     <!-- scripts -->
     <script src="/js/vendor/popper.min.js" charset="utf-8"></script>

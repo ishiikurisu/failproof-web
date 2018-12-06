@@ -27,9 +27,9 @@ function draw() {
                 /* TODO enable editon of items' titles */
                 /* TODO enable remotion of items */
                 checklistHtml += `
-                            <li class="list-group-item">
-                                `+ checklist.items[j].title +`
-                            </li>
+                        <li class="list-group-item">
+                            `+ checklist.items[j].title +`
+                        </li>
                 `;
             }
             /* TODO enable addition of items */
