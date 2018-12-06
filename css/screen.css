@@ -2,30 +2,42 @@
 @import url('https://fonts.googleapis.com/css?family=Architects+Daughter');
 
 body {
-  padding-top: 54px;
   background-color: #916953;
   font-family: "ABeeZee", sans-serif;
+  color: white;
 }
+
+/**********
+ * NAVBAR *
+ **********/
 
 .navbar-brand {
   font-family: 'Architects Daughter', cursive;
 }
 
-.cl-title {
-  color: #CF8E80;
+.navbar-inverse {
+  background-color: #CF8E80;
 }
 
-.cl-title:hover,
-.cl-title:clicked {
-  color: #CF8E80;
+.nav-link {
+  color: white;
 }
 
-#content p {
-    color: #CF8E80;
+.nav-link:hover {
+  color: white;
+  opacity: 10%;
 }
 
-@media (min-width: 992px) {
-  body {
-    padding-top: 56px;
-  }
+/***********
+ * CONTENT *
+ ***********/
+
+.btn-primary,
+.btn-primary:hover {
+  background-color: #CF8E80;
+  border-color: #CF8E80;
+}
+
+.card {
+  color: black;
 }
