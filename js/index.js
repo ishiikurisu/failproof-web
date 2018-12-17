@@ -26,9 +26,14 @@ function draw() {
                 /* TODO make items checkable */
                 /* TODO enable editon of items' titles */
                 /* TODO enable remotion of items */
+                /* TODO draw already checked items */
                 checklistHtml += `
                         <li class="list-group-item">
+                            <p class="todo-task" 
+                               onclick="cycleTask(`+i+`,`+j+`)"
+                               id="taski`+i+`j`+j+`">
                             `+ checklist.items[j].title +`
+                            </p>
                         </li>
                 `;
             }
@@ -45,6 +50,18 @@ function draw() {
     }
 
     $('#content').html(html);
+}
+
+function cycleTask(i, j) {
+    var p = $("#taski"+i+"j"+j);
+    if (p.hasClass('todo-task')) {
+        p.removeClass('todo-task');
+        p.addClass('done-task');
+    } else if (p.hasClass('done-task')) {
+        p.removeClass('done-task');
+        p.addClass('todo-task');
+    }
+    /* TODO update model */
 }
 
 $(document).ready(function() {

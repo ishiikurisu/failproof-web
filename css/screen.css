@@ -41,3 +41,11 @@ body {
 .card {
   color: black;
 }
+
+.todo-task {
+  text-decoration: none;
+}
+
+.done-task {
+  text-decoration: line-through;
+}
