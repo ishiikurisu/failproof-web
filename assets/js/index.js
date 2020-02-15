@@ -85,7 +85,6 @@ function generateChecklistContent(checklists, index) {
     var checklistBody = "";
 
     // TODO move items around
-    // TODO remove items
     for (var i = 0; i < checklist.items.length; i++) {
         var item = checklist.items[i];
         var checkboxId = "checkbox-" + index + "-" + i;
@@ -95,12 +94,14 @@ function generateChecklistContent(checklists, index) {
             <p>
                 <input type="checkbox" id="${checkboxId}" name="checkbox" value="${checkboxId}" ${checked}>
                 <input type="text" id="label-${checkboxId}" class="textboxLabel" for="${checkboxId}" value="${item.title}">
+                <i class="fa fa-trash" aria-hidden="true" onclick="deleteItemCallback(${index}, ${i})"></i>
             </p>
         `;
         checklistBody += itemBody;
     }
 
     // TODO enable title edition
+    // TODO delete checklist
     return `
     <div class="email-content">
         <div class="email-content-header pure-g">
@@ -210,6 +211,26 @@ function addItemCallback(index) {
     checklists[index] = checklist;
     saveChecklists(checklists);
     displayChecklist(index);
+}
+
+/**
+ * Reaction to clicking the trashbox icon on an item
+ */
+function deleteItemCallback(checklistIndex, itemIndex) {
+    var checklists = loadChecklists();
+    var checklist = readChecklist();
+    var newItems = [];
+
+    for (var i = 0; i < checklist.items.length; i++) {
+        if (i !== itemIndex) {
+            newItems.push(checklist.items[i]);
+        }
+    }
+
+    checklist.items = newItems;
+    checklists[checklistIndex] = checklist;
+    saveChecklists(checklists);
+    displayChecklist(checklistIndex);
 }
 
 // ##################
