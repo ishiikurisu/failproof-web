@@ -110,20 +110,35 @@ function displayChecklist(i) {
 }
 
 /**
+ * Reaction to clicking the "New List" button
+ */
+function newListCallback() {
+    var checklists = loadChecklists();
+    checklists.push(createDummyChecklist());
+    saveChecklists(checklists);
+    draw();
+}
+
+/**
  * Call when the page is first loaded
  */
-function main() {
+function setup() {
     var checklists = loadChecklists();
     if (checklists.length === 0) {
         checklists.push(createDummyChecklist());
         // TODO display empty page
     }
+    saveChecklists(checklists);
+}
 
+/**
+ * Draw contents on screen
+ */
+function draw() {
+    var checklists = loadChecklists();
     var checklistsHTML = "";
     for (var i = 0; i < checklists.length; i++) {
         checklistsHTML += generateChecklistCard(checklists, i);
     }
     document.getElementById('list').innerHTML = checklistsHTML;
-
-    saveChecklists(checklists);
 }

@@ -17,7 +17,7 @@
         <a href="#" class="nav-menu-button">Menu</a>
 
         <div class="nav-inner">
-            <button class="primary-button pure-button">New list</button>
+            <button class="primary-button pure-button" onclick="newListCallback()">New list</button>
         </div>
     </div>
 
@@ -79,28 +79,11 @@
         </div> -->
     </div>
 </div>
-
-<!-- TODO replace this by code of my own -->
-<script src="https://yui-s.yahooapis.com/3.18.1/build/yui/yui-min.js"></script>
-<script>
-    YUI().use('node-base', 'node-event-delegate', function (Y) {
-
-        var menuButton = Y.one('.nav-menu-button'),
-            nav        = Y.one('#nav');
-
-        // Setting the active class name expands the menu vertically on small screens.
-        menuButton.on('click', function (e) {
-            nav.toggleClass('active');
-        });
-
-        // Your application code goes here...
-
-    });
-</script>
 <script src="/assets/js/util.js" charset="utf-8"></script>
 <script src="/assets/js/index.js" charset="utf-8"></script>
 <script type="text/javascript">
-    main();
+    setup();
+    draw();
 </script>
 
 
