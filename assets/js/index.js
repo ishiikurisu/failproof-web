@@ -67,10 +67,22 @@ function generateChecklistCard(checklists, i) {
         <div class="pure-u-3-4">
             <h5 class="email-name">` + checklist.title + `</h5>
             <p class="email-desc">
-                ` + "TODO list items to do and trim them" + `
+                <i class="fa fa-trash" aria-hidden="true" onclick="deleteChecklistCallback(${i})"></i>
             </p>
         </div>
     </div>`;
+}
+
+/**
+ * Draws the checklist list on screen
+ */
+function displayChecklistList() {
+    var checklists = loadChecklists();
+    var checklistsHTML = "";
+    for (var i = 0; i < checklists.length; i++) {
+        checklistsHTML += generateChecklistCard(checklists, i);
+    }
+    document.getElementById('list').innerHTML = checklistsHTML;
 }
 
 /**
@@ -100,7 +112,6 @@ function generateChecklistContent(checklists, index) {
         checklistBody += itemBody;
     }
 
-    // TODO delete checklist
     return `
     <div class="email-content">
         <div class="email-content-header pure-g">
@@ -181,7 +192,7 @@ function newListCallback() {
     var checklists = loadChecklists();
     checklists.push(createDummyChecklist());
     saveChecklists(checklists);
-    draw();
+    displayChecklistList();
 }
 
 /**
@@ -192,7 +203,7 @@ function saveCallback(index) {
     var checklist = readChecklist();
     checklists[index] = checklist;
     saveChecklists(checklists);
-    draw();
+    displayChecklistList();
 }
 
 /**
@@ -230,6 +241,23 @@ function deleteItemCallback(checklistIndex, itemIndex) {
     displayChecklist(checklistIndex);
 }
 
+/**
+ * Reaction to clicking the trashbox icon on a checklist
+ */
+function deleteChecklistCallback(checklistIndex) {
+    var checklists = loadChecklists();
+    var newChecklists = [];
+
+    for (var i = 0; i < checklists.length; i++) {
+        if (i !== checklistIndex) {
+            newChecklists.push(checklists[i]);
+        }
+    }
+
+    saveChecklists(newChecklists);
+    displayChecklistList();
+}
+
 // ##################
 // # MAIN FUNCTIONS #
 // ##################
@@ -250,10 +278,5 @@ function setup() {
  * Draw contents on screen
  */
 function draw() {
-    var checklists = loadChecklists();
-    var checklistsHTML = "";
-    for (var i = 0; i < checklists.length; i++) {
-        checklistsHTML += generateChecklistCard(checklists, i);
-    }
-    document.getElementById('list').innerHTML = checklistsHTML;
+    displayChecklistList();
 }
