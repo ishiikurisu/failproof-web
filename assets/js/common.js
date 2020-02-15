@@ -50,12 +50,26 @@ function saveChecklists(checklists) {
 
 /**
  * Converts list of checklists as JS objects into a *.fpcl string
- * @param checklist array of checklists
+ * @param checklists array of checklists
  * @returns a string representing the checklist in the *.fpcl format
  */
-function checklistsToFpcl(checklist) {
-    // TODO implement me!
-    return "";
+function checklistsToFpcl(checklists) {
+    var outlet = "";
+
+    for (var i = 0; i < checklists.length; i++) {
+        var checklist = checklists[i];
+        var items = checklist.items;
+        var box = `${checklist.title}\n`;
+        for (var j = 0; j < items.length; j++) {
+            var item = items[j];
+            var checked = (item.done)? "-" : "+";
+            box += `${checked}${item.title}\n`
+        }
+        box += "\n";
+        outlet += box;
+    }
+
+    return outlet;
 }
 
 /**
