@@ -1,16 +1,11 @@
-# Failproof Checklists - The web app!
+# Failproof Checklists - The Web App!
 
-Basically, this
-is a serverless app that will enable users to actually consume these checklists
-as they want. They can download checklists from our database or create their
-own.
-
-**WARNING!** This still is experimental code.
+Serverless checklists for your convenience.
 
 ## Running
 
-Just run
+Serve the site from a static server, such as:
 
-    node server.js
+    python3 -m http.server 8000
 
-To check the site running from a server. It shouldn't need it though.
+It should be enough to get you started.
