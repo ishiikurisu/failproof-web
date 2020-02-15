@@ -84,16 +84,17 @@ function generateChecklistContent(checklists, index) {
     var checklist = checklists[index];
     var checklistBody = "";
 
-    // TODO enable item title edition
     // TODO move items around
+    // TODO remove items
     for (var i = 0; i < checklist.items.length; i++) {
         var item = checklist.items[i];
         var checkboxId = "checkbox-" + index + "-" + i;
+        var textId = "text-" + index + "-" + i;
         var checked = (item.done)? "checked" : "";
         var itemBody = `
             <p>
                 <input type="checkbox" id="${checkboxId}" name="checkbox" value="${checkboxId}" ${checked}>
-                <label for="${checkboxId}">${item.title}</label>
+                <input type="text" id="label-${checkboxId}" class="textboxLabel" for="${checkboxId}" value="${item.title}">
             </p>
         `;
         checklistBody += itemBody;
@@ -142,9 +143,9 @@ function readChecklist() {
 
     for (var i = 0; i < checkboxes.length; i++) {
         var checkbox = checkboxes[i];
-        var label = findLabelForElementById(checkbox.id);  // IDEA replace this by a map from checkboxes to labels
+        var label = findLabelForCheckbox(checkbox.id);  // IDEA replace this by a map from checkboxes to labels
         items.push({
-            'title': label.innerHTML,
+            'title': label.value,
             'done': checkbox.checked
         });
     }
@@ -160,11 +161,12 @@ function readChecklist() {
  * @param id the reference element id
  * @returns the label that is related to the reference element
  */
-function findLabelForElementById(id) {
-    var labels = document.getElementsByTagName('label');
+function findLabelForCheckbox(id) {
+    var labels = document.getElementsByClassName('textboxLabel');
+    var targetId = "label-" + id;
     for (var i = 0; i < labels.length; i++) {
         var label = labels[i];
-        if (label.htmlFor === id) {
+        if (label.id === targetId) {
             return label;
         }
     }
