@@ -93,23 +93,19 @@ function generateChecklistContent(checklists, index) {
         var itemBody = `
             <p>
                 <input type="checkbox" id="${checkboxId}" name="checkbox" value="${checkboxId}" ${checked}>
-                <input type="text" id="label-${checkboxId}" class="textboxLabel" for="${checkboxId}" value="${item.title}">
+                <input type="text" id="label-${checkboxId}" class="textboxLabel editable-title" for="${checkboxId}" value="${item.title}">
                 <i class="fa fa-trash" aria-hidden="true" onclick="deleteItemCallback(${index}, ${i})"></i>
             </p>
         `;
         checklistBody += itemBody;
     }
 
-    // TODO enable title edition
     // TODO delete checklist
     return `
     <div class="email-content">
         <div class="email-content-header pure-g">
             <div class="pure-u-1-2">
-                <h1 class="email-content-title">${checklist.title}</h1>
-                <p class="email-content-subtitle">
-                    ` + "TODO come up with some witty subtitle" + `
-                </p>
+                <input type="text" class="editable-title somehow-big email-content-title" value="${checklist.title}">
             </div>
 
             <div class="email-content-controls pure-u-1-2">
@@ -152,7 +148,7 @@ function readChecklist() {
     }
 
     return {
-        "title": document.getElementsByClassName('email-content-title')[0].innerHTML,
+        "title": document.getElementsByClassName('email-content-title')[0].value,
         "items": items
     };
 }
@@ -196,6 +192,7 @@ function saveCallback(index) {
     var checklist = readChecklist();
     checklists[index] = checklist;
     saveChecklists(checklists);
+    draw();
 }
 
 /**
