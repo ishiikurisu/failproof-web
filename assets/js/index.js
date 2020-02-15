@@ -3,8 +3,14 @@
  * @returns a list of checklist objects
  */
 function loadChecklists() {
-    // TODO load checklists from storage
-    return [];
+    var rawChecklists = getCookie('checklists');
+    var checklists = [];
+
+    if (!!rawChecklists) {
+        checklists = JSON.parse(rawChecklists);
+    }
+
+    return checklists;
 }
 
 /**
@@ -31,7 +37,7 @@ function createDummyChecklist() {
  * @param checklists list of checklist objects
  */
 function saveChecklists(checklists) {
-    // TODO store checklists on local storage
+    setCookie('checklists', JSON.stringify(checklists));
 }
 
 /**
