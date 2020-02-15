@@ -62,7 +62,7 @@ function checklistsToFpcl(checklists) {
         var box = `${checklist.title}\n`;
         for (var j = 0; j < items.length; j++) {
             var item = items[j];
-            var checked = (item.done)? "-" : "+";
+            var checked = (item.done)? "+" : "-";
             box += `${checked}${item.title}\n`
         }
         box += "\n";
@@ -78,6 +78,35 @@ function checklistsToFpcl(checklists) {
  * @returns array of checklists
  */
 function fpclToChecklists(fpcl) {
-    // TODO implement me!
-    return [];
+    var checklists = [];
+    var lines = fpcl.split('\n');
+    var currentChecklist = null;
+    var currentState = "title";
+
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        switch (currentState) {
+            case "title":
+                currentChecklist = {
+                    "title": line,
+                    "items": []
+                }
+                currentState = "item";
+                break;
+            case "item":
+                if (line.length === 0) {
+                    checklists.push(currentChecklist);
+                    currentState = "title";
+                } else {
+                    var item = {
+                        "title": line.substring(1),
+                        "done": line[0] === '+'
+                    }
+                    currentChecklist.items.push(item);
+                }
+                break;
+        }
+    }
+
+    return checklists;
 }
