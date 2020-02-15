@@ -1,3 +1,7 @@
+// #####################
+// # MEMORY MANAGEMENT #
+// #####################
+
 /**
  * Loads checklists from memory
  * @returns a list of checklist objects
@@ -40,6 +44,10 @@ function saveChecklists(checklists) {
     setCookie('checklists', JSON.stringify(checklists));
 }
 
+// #####################
+// # DRAWING FUNCTIONS #
+// #####################
+
 /**
  * Generates a card to display on the list view. When it is clicked, it should
  * be displayed on the main content div.
@@ -68,33 +76,47 @@ function generateChecklistCard(checklists, i) {
 /**
  * Generates the main div content for a checklist
  * @param checklists the list of all checklists
- * @param i the reference checklist
+ * @param index the reference checklist
  * @retuns the HTML for the checklist content following the standard set by the
  *         home page
  */
-function generateChecklistContent(checklists, i) {
-    var checklist = checklists[i];
-    var checklistBody = "";  // TODO generate checklist body
+function generateChecklistContent(checklists, index) {
+    var checklist = checklists[index];
+    var checklistBody = "";
 
+    // TODO enable item title edition
+    // TODO move items around
+    for (var i = 0; i < checklist.items.length; i++) {
+        var item = checklist.items[i];
+        var checkboxId = "checkbox-" + index + "-" + i;
+        var itemBody = `
+            <p>
+                <input type="checkbox" id="${checkboxId}" name="${checkboxId}" value="${checkboxId}">
+                <label for="${checkboxId}">${item.title}</label>
+            </p>
+        `;
+        checklistBody += itemBody;
+    }
+
+    // TODO enable title edition
     return `
     <div class="email-content">
         <div class="email-content-header pure-g">
             <div class="pure-u-1-2">
-                <h1 class="email-content-title">` + checklist.title + `</h1>
+                <h1 class="email-content-title">${checklist.title}</h1>
                 <p class="email-content-subtitle">
                     ` + "TODO come up with some witty subtitle" + `
                 </p>
             </div>
 
             <div class="email-content-controls pure-u-1-2">
-                <button class="secondary-button pure-button">Reply</button>
-                <button class="secondary-button pure-button">Forward</button>
-                <button class="secondary-button pure-button">Move to</button>
+                <button class="secondary-button pure-button" onclick="saveCallback(${index})">Save</button>
+                <button class="secondary-button pure-button" onclick="addItemCallback(${index})">Add Item</button>
             </div>
         </div>
 
         <div class="email-content-body">
-            ` + checklistBody + `
+            ${checklistBody}
         </div>
     </div>`;
 }
@@ -106,8 +128,21 @@ function generateChecklistContent(checklists, i) {
 function displayChecklist(i) {
     document.getElementById('main').innerHTML = generateChecklistContent(loadChecklists(), i);
     document.getElementById('checklist-' + i).classList.add('active');
-    // TODO disable remaining lists
+    // TODO set remaining lists as inactive
 }
+
+/**
+ * Generates a checklist from the contents of the main div
+ * @returns the checklist that is described on the main content
+ */
+function readChecklist() {
+    // TODO implement me
+    return null;
+}
+
+// #############
+// # CALLBACKS #
+// #############
 
 /**
  * Reaction to clicking the "New List" button
@@ -118,6 +153,27 @@ function newListCallback() {
     saveChecklists(checklists);
     draw();
 }
+
+/**
+ * Reaction to clicking "Save" on a list
+ */
+function saveCallback(index) {
+    var checklists = loadChecklists();
+    var checklist = readChecklist();
+    checklists[index] = checklist;
+    saveChecklists(checklists);
+}
+
+/**
+ * Reaction to clicking "Add Item" on a list
+ */
+function addItemCallback(index) {
+    // TODO add item to a checklist
+}
+
+// ##################
+// # MAIN FUNCTIONS #
+// ##################
 
 /**
  * Call when the page is first loaded
