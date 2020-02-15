@@ -35,6 +35,28 @@ function saveChecklists(checklists) {
 }
 
 /**
+ * Generates a card to display on the list view
+ * @param checklist the checklist to be used as reference
+ * @returns the HTML for the checklist card following the standard set by the
+ *          home page
+ */
+function generateChecklistCard(checklist) {
+    return `
+    <div class="email-item pure-g">
+        <div class="pure-u">
+            <img width="64" height="64" alt="Checklist" class="email-avatar" src="https://via.placeholder.com/64/FFCD8A/000000/?text=Checklist">
+        </div>
+
+        <div class="pure-u-3-4">
+            <h5 class="email-name">` + checklist.title + `</h5>
+            <p class="email-desc">
+                ` + "TODO list items to do and trim them" + `
+            </p>
+        </div>
+    </div>`;
+}
+
+/**
  * Call when the page is first loaded
  */
 function main() {
@@ -43,7 +65,11 @@ function main() {
         checklists.push(createDummyChecklist());
     }
 
-    // TODO draw checklists
+    var checklistsHTML = "";
+    for (var i = 0; i < checklists.length; i++) {
+        checklistsHTML += generateChecklistCard(checklists[i]);
+    }
+    document.getElementById('list').innerHTML = checklistsHTML;
 
     saveChecklists(checklists);
 }
