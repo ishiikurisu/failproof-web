@@ -201,7 +201,15 @@ function saveCallback(index) {
  * Reaction to clicking "Add Item" on a list
  */
 function addItemCallback(index) {
-    // TODO add item to a checklist
+    var checklists = loadChecklists();
+    var checklist = readChecklist();
+    checklist.items.push({
+        "title": "New item",
+        "done": false
+    })
+    checklists[index] = checklist;
+    saveChecklists(checklists);
+    displayChecklist(index);
 }
 
 // ##################
