@@ -43,3 +43,27 @@ function createDummyChecklist() {
 function saveChecklists(checklists) {
     setCookie('checklists', JSON.stringify(checklists));
 }
+
+// ##################
+// # API MANAGEMENT #
+// ##################
+
+/**
+ * Converts list of checklists as JS objects into a *.fpcl string
+ * @param checklist array of checklists
+ * @returns a string representing the checklist in the *.fpcl format
+ */
+function checklistsToFpcl(checklist) {
+    // TODO implement me!
+    return "";
+}
+
+/**
+ * Converts a *.fpcl string into an array of checklists
+ * @param fpcl string representation of a checklist
+ * @returns array of checklists
+ */
+function fpclToChecklists(fpcl) {
+    // TODO implement me!
+    return [];
+}
