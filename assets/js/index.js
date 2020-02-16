@@ -212,6 +212,14 @@ function deleteChecklistCallback(checklistIndex) {
     displayChecklistList();
 }
 
+/**
+ * Reaction to clicking "Menu". Should appear on mobile only.
+ */
+function navMenuButtonCallback() {
+    var nav = document.getElementById('nav');
+    nav.classList.toggle('active');
+}
+
 // ##################
 // # MAIN FUNCTIONS #
 // ##################
