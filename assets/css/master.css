@@ -4,6 +4,7 @@
  */
 body {
     color: #333;
+    font-family: 'Rubik', sans-serif;
 }
 
 
@@ -27,7 +28,7 @@ a {
 }
 .primary-button {
     color: #fff;
-    background: #1b98f8;
+    background: #F97C00;
     margin: 1em 0;
 }
 .secondary-button {
@@ -90,10 +91,10 @@ a {
 }
     #nav .pure-menu-link:hover,
     #nav .pure-menu-link:focus {
-        background: rgb(55, 60, 90);
+        background: #100007;
     }
     #nav .pure-menu-link {
-        color: #fff;
+        color: #F97C00;
         margin-left: 0.5em;
     }
     #nav .pure-menu-heading {
@@ -286,4 +287,10 @@ a {
     outline: 0;
     background: transparent;
     border-bottom: 1px solid #ddd;
+}
+
+.editchecklist {
+    height: 30em;
+    width: 20em;
+    font-family: monospace;
 }
