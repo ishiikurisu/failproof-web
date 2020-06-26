@@ -59,13 +59,12 @@ function checklistsToFpcl(checklists) {
     for (var i = 0; i < checklists.length; i++) {
         var checklist = checklists[i];
         var items = checklist.items;
-        var box = `${checklist.title}\n`;
+        var box = `# ${checklist.title}\n\n`;
         for (var j = 0; j < items.length; j++) {
             var item = items[j];
-            var checked = (item.done)? "+" : "-";
+            var checked = `- [${(item.done)? "x" : " "}] `
             box += `${checked}${item.title}\n`
         }
-        box += "\n";
         outlet += box;
     }
 
@@ -73,39 +72,20 @@ function checklistsToFpcl(checklists) {
 }
 
 /**
- * Converts a *.fpcl string into an array of checklists
- * @param fpcl string representation of a checklist
+ * Converts a markdown string into an array of checklists
+ * @param md string representation of a checklist
  * @returns array of checklists
  */
-function fpclToChecklists(fpcl) {
+function fpclToChecklists(md) {
     var checklists = [];
-    var lines = fpcl.split('\n');
+    var lines = md.split('\n');
     var currentChecklist = null;
     var currentState = "title";
 
     for (var i = 0; i < lines.length; i++) {
-        var line = lines[i];
-        switch (currentState) {
-            case "title":
-                currentChecklist = {
-                    "title": line,
-                    "items": []
-                }
-                currentState = "item";
-                break;
-            case "item":
-                if (line.length === 0) {
-                    checklists.push(currentChecklist);
-                    currentState = "title";
-                } else {
-                    var item = {
-                        "title": line.substring(1),
-                        "done": line[0] === '+'
-                    }
-                    currentChecklist.items.push(item);
-                }
-                break;
-        }
+        // TODO Identify what the current line is
+        // TODO Update objects accordingly
+        // TODO Update state machine
     }
 
     return checklists;
