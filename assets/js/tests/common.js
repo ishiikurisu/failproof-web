@@ -1,9 +1,32 @@
+/* ######################
+   # AUXILIAR FUNCTIONS #
+   ###################### */
+function assertEqualFpcl(expected, result) {
+    let listsHaveSameLength = function(a, b) {
+        return a.length === b.length;
+    }
+
+    let listsHaveContent = function(a, b) {
+        return JSON.stringify(a) === JSON.stringify(b);
+    }
+
+    let conclusion = listsHaveSameLength(expected, result) &&
+                     listsHaveContent(expected, result);
+
+    chai.assert(conclusion, 'Lists are equal');
+}
+
+
+/* ##############
+   # UNIT TESTS #
+   ############## */
 describe('FPCL Convertion', function() {
     describe('Converting from FPCL', function() {  // fpclToChecklists()
         it('Should convert a single list correctly', function() {
-            var fpcl = `Your first checklist
--Something to do
-+Done item
+            var fpcl = `# Your first checklist
+
+- [ ] Something to do
+- [ ] Done item
 `
             var expectedChecklists = [
                 {
@@ -20,18 +43,19 @@ describe('FPCL Convertion', function() {
                 }
             ]
             var resultingChecklists = fpclToChecklists(fpcl);
-            chai.assert.equal(expectedChecklists.length, resultingChecklists.length);
+            assertEqualFpcl(expectedChecklists, resultingChecklists);
         });
 
         it('Should convert a couple of lists correctly', function() {
-            var fpcl = `Your first checklist
--Something to do
-+Done item
+            var fpcl = `# Your first checklist
 
-Another checklist
-+done stuff
-+I am the king of stuff
-++I am the king of stuff+
+- [ ] Something to do
+- [x] Done item
+
+# Another checklist
+
+- [x] done stuff
+- [x]I am the king of stuff
 `
             var expectedChecklists = [
                 {
@@ -54,26 +78,25 @@ Another checklist
                         }, {
                             "title": "I am the king of stuff",
                             "done": true
-                        }, {
-                            "title": "+I am the king of stuff+",
-                            "done": true
                         }
                     ]
                 }
             ]
             var resultingChecklists = fpclToChecklists(fpcl);
-            chai.assert.equal(expectedChecklists.length, resultingChecklists.length);
+            assertEqualFpcl(expectedChecklists, resultingChecklists);
         });
 
         it('Should convert a couple of lists correctly, even if it includes an empty list', function() {
-            var fpcl = `Your first checklist
--Something to do
-+Done item
+            var fpcl = `# Your first checklist
 
-Empty Checklist
+- [ ] Something to do
+- [x] Done item
 
-Not empty checklist
--to do
+# Empty Checklist
+
+# Not empty checklist
+
+- [ ] to do
 `
             var expectedChecklists = [
                 {
@@ -101,18 +124,20 @@ Not empty checklist
                 }
             ]
             var resultingChecklists = fpclToChecklists(fpcl);
-            chai.assert.equal(expectedChecklists.length, resultingChecklists.length);
+            assertEqualFpcl(expectedChecklists, resultingChecklists);
         });
 
         it('Should convert a couple of lists correctly, even if it includes an empty list in the end', function() {
-            var fpcl = `Your first checklist
--Something to do
-+Done item
+            var fpcl = `# Your first checklist
 
-Not empty checklist
--to do
+- [ ] Something to do
+- [x] Done item
 
-Empty Checklist
+# Not empty checklist
+
+- [ ] to do
+
+# Empty Checklist
 
 `
             var expectedChecklists = [
@@ -141,7 +166,7 @@ Empty Checklist
                 }
             ]
             var resultingChecklists = fpclToChecklists(fpcl);
-            chai.assert.equal(expectedChecklists.length, resultingChecklists.length);
+            assertEqualFpcl(expectedChecklists, resultingChecklists);
         });
     });
 });
