@@ -114,28 +114,35 @@ function fpclToChecklists(md) {
 
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
-        var kind = identifyKind(line);
+        currentState = identifyKind(line);
 
-        switch (kind) {
+        switch (currentState) {
             case 'title':
                 if (currentChecklist !== null) {
                     checklists.push(currentChecklist);
                 }
-                // TODO extract title
+
                 currentChecklist = {
-                    'title': null
+                    'title': line.substring(1).trim(),
+                    'items': []
                 };
                 break;
 
             case 'todo':
-                // TODO get task state
-                // TODO get task title
-                // TODO append to current checklist
+                currentChecklist.items.push({
+                    'title': line.substring('- [ ]'.length).trim(),
+                    'done': !!line.match(/^- \[x\]/)
+                });
                 break;
 
-            default: // empty line
+            default:
+                // empty line
                 continue;
         }
+    }
+
+    if (currentState !== 'title') {
+        checklists.push(currentChecklist);
     }
 
     return checklists;
