@@ -169,4 +169,32 @@ describe('FPCL Convertion', function() {
             assertEqualFpcl(expectedChecklists, resultingChecklists);
         });
     });
+
+    describe("Converting to FPCL", function() { // checklistsToFpcl()
+        it("Should convert checklists to Markdown", function() {
+            var checklists = [
+                {
+                    "title": "Your first checklist",
+                    "items": [
+                        {
+                            "title": "Something to do",
+                            "done": false
+                        }, {
+                            "title": "Done item",
+                            "done": true
+                        }
+                    ]
+                }
+            ];
+
+            var expected = `# Your first checklist
+
+- [ ] Something to do
+- [x] Done item
+`;
+
+            var result = checklistsToFpcl(checklists);
+            chai.assert.equal(expected, result);
+        });
+    });
 });
