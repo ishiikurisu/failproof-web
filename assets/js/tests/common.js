@@ -198,3 +198,37 @@ describe('FPCL Convertion', function() {
         });
     });
 });
+
+describe("Auxiliar Functions", function() {
+    describe("Identify Kind", function() {
+        it("Should correctly identify the line kind", function() {
+            let scenarios = [
+                {
+                    content: "",
+                    expected: "empty"
+                },
+                {
+                    content: "# Title",
+                    expected: "title"
+                },
+                {
+                    content: "- [ ] To do task",
+                    expected: "todo"
+                },
+                {
+                    content: "- [x] Done task",
+                    expected: "todo"
+                },
+                {
+                    content: "Random content",
+                    expected: null
+                }
+            ];
+            for (var i = 0; i < scenarios.length; i++) {
+                var scenario = scenarios[i];
+                var result = identifyKind(scenario.content);
+                chai.assert.equal(scenario.expected, result);
+            }
+        });
+    });
+});

@@ -48,6 +48,8 @@ function saveChecklists(checklists) {
 // # API MANAGEMENT #
 // ##################
 
+/* FPCL TO CHECKLISTS */
+
 /**
  * Converts list of checklists as JS objects into a *.fpcl string
  * @param checklists array of checklists
@@ -71,6 +73,34 @@ function checklistsToFpcl(checklists) {
     return outlet;
 }
 
+/* FPCL TO CHECKLISTS */
+
+function identifyKind(line) {
+    let kinds = [
+        {
+            name: 'title',
+            regex: /^#(.*)/
+        },
+        {
+            name: 'todo',
+            regex: /^- \[[\sx]\](.*)/
+        },
+        {
+            name: 'empty',
+            regex: /^(?![\s\S])/
+        }
+    ];
+    var noKind = kinds.length;
+    for (var i = 0; i < noKind; i++) {
+        var kind = kinds[i];
+        var match = line.match(kind.regex);
+        if (match) {
+            return kind.name;
+        }
+    }
+    return null;
+}
+
 /**
  * Converts a markdown string into an array of checklists
  * @param md string representation of a checklist
@@ -83,9 +113,29 @@ function fpclToChecklists(md) {
     var currentState = "title";
 
     for (var i = 0; i < lines.length; i++) {
-        // TODO Identify what the current line is
-        // TODO Update objects accordingly
-        // TODO Update state machine
+        var line = lines[i];
+        var kind = identifyKind(line);
+
+        switch (kind) {
+            case 'title':
+                if (currentChecklist !== null) {
+                    checklists.push(currentChecklist);
+                }
+                // TODO extract title
+                currentChecklist = {
+                    'title': null
+                };
+                break;
+
+            case 'todo':
+                // TODO get task state
+                // TODO get task title
+                // TODO append to current checklist
+                break;
+
+            default: // empty line
+                continue;
+        }
     }
 
     return checklists;
