@@ -26,7 +26,7 @@ describe('FPCL Convertion', function() {
             var fpcl = `# Your first checklist
 
 - [ ] Something to do
-- [ ] Done item
+- [x] Done item
 `
             var expectedChecklists = [
                 {
@@ -43,6 +43,7 @@ describe('FPCL Convertion', function() {
                 }
             ]
             var resultingChecklists = fpclToChecklists(fpcl);
+            console.log(resultingChecklists);
             assertEqualFpcl(expectedChecklists, resultingChecklists);
         });
 
