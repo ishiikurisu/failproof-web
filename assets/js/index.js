@@ -119,13 +119,15 @@ function generateChecklistContent(checklists, index) {
 
             <div class="email-content-controls pure-u-1-2">
                 <button class="secondary-button pure-button" onclick="saveCallback(${index})">Save</button>
-                <button class="secondary-button pure-button" onclick="addItemCallback(${index})">Add Item</button>
             </div>
         </div>
 
         <div class="email-content-body">
             ${checklistBody}
-            <!-- TODO Add buttons for adding more items -->
+            <p>
+                <button class="secondary-button pure-button" onclick="addItemCallback(${index})">New note</button>
+                <button class="secondary-button pure-button" onclick="addTaskCallback(${index})">New task</button>
+            </p>
         </div>
     </div>`;
 }
@@ -229,7 +231,7 @@ function addItemCallback(index) {
 /**
  * Reaction to clicking "Add task" on a list
  */
-function addItemCallback(index) {
+function addTaskCallback(index) {
     var checklists = loadChecklists();
     var checklist = readChecklist();
     checklist.items.push({
