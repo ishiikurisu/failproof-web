@@ -313,11 +313,8 @@ Your first note
             var expected = `# Your first list
 
 - [ ] First item
-
 Second item
-
 Third item
-
 - [ ] Fourth item
 `;
 
@@ -334,23 +331,22 @@ describe("Auxiliar Functions", function() {
                 {
                     content: "",
                     expected: "empty"
-                },
-                {
+                }, {
                     content: "# Title",
                     expected: "title"
-                },
-                {
+                }, {
                     content: "- [ ] To do task",
                     expected: "todo"
-                },
-                {
+                }, {
                     content: "- [x] Done task",
                     expected: "todo"
-                },
-                {
+                }, {
                     content: "Random content",
                     expected: "note"
-                }
+                }, {
+                    content: "- List",
+                    expected: "note"
+                },
             ];
             for (var i = 0; i < scenarios.length; i++) {
                 var scenario = scenarios[i];
