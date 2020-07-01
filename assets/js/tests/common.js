@@ -33,9 +33,11 @@ describe('FPCL Convertion', function() {
                     "title": "Your first checklist",
                     "items": [
                         {
+                            "kind": "todo",
                             "title": "Something to do",
                             "done": false
                         }, {
+                            "kind": "todo",
                             "title": "Done item",
                             "done": true
                         }
@@ -63,9 +65,11 @@ describe('FPCL Convertion', function() {
                     "title": "Your first checklist",
                     "items": [
                         {
+                            "kind": "todo",
                             "title": "Something to do",
                             "done": false
                         }, {
+                            "kind": "todo",
                             "title": "Done item",
                             "done": true
                         }
@@ -74,9 +78,11 @@ describe('FPCL Convertion', function() {
                     "title": "Another checklist",
                     "items": [
                         {
+                            "kind": "todo",
                             "title": "done stuff",
                             "done": true
                         }, {
+                            "kind": "todo",
                             "title": "I am the king of stuff",
                             "done": true
                         }
@@ -104,9 +110,11 @@ describe('FPCL Convertion', function() {
                     "title": "Your first checklist",
                     "items": [
                         {
+                            "kind": "todo",
                             "title": "Something to do",
                             "done": false
                         }, {
+                            "kind": "todo",
                             "title": "Done item",
                             "done": true
                         }
@@ -118,6 +126,7 @@ describe('FPCL Convertion', function() {
                     "title": "Not empty checklist",
                     "items": [
                         {
+                            "kind": "todo",
                             "title": "to do",
                             "done": false
                         }
@@ -146,9 +155,11 @@ describe('FPCL Convertion', function() {
                     "title": "Your first checklist",
                     "items": [
                         {
+                            "kind": "todo",
                             "title": "Something to do",
                             "done": false
                         }, {
+                            "kind": "todo",
                             "title": "Done item",
                             "done": true
                         }
@@ -157,6 +168,7 @@ describe('FPCL Convertion', function() {
                     "title": "Not empty checklist",
                     "items": [
                         {
+                            "kind": "todo",
                             "title": "to do",
                             "done": false
                         }
@@ -169,6 +181,58 @@ describe('FPCL Convertion', function() {
             var resultingChecklists = fpclToChecklists(fpcl);
             assertEqualFpcl(expectedChecklists, resultingChecklists);
         });
+
+        it('Should convert a couple of lists with notes', function() {
+            var fpcl = `# Your first checklist
+
+- [ ] Something to do
+- [x] Done item
+FPCL's first note
+
+# Note only checklist
+
+This checklist contains a note only,
+with two lines of notes.
+
+# Empty Checklist
+
+`
+            var expectedLists = [
+                {
+                    "title": "Your first checklist",
+                    "items": [
+                        {
+                            "kind": "todo",
+                            "title": "Something to do",
+                            "done": false
+                        }, {
+                            "kind": "todo",
+                            "title": "Done item",
+                            "done": true
+                        }, {
+                            "kind": "note",
+                            "title": "FPCL's first note"
+                        }
+                    ]
+                }, {
+                    "title": "Note only checklist",
+                    "items": [
+                        {
+                            "kind": "note",
+                            "title": "This checklist contains a note only,"
+                        }, {
+                            "kind": "note",
+                            "title": "with two lines of notes."
+                        }
+                    ]
+                }, {
+                    "title": "Empty Checklist",
+                    "items": []
+                }
+            ]
+            var resultingLists = fpclToChecklists(fpcl);
+            assertEqualFpcl(expectedLists, resultingLists);
+        });
     });
 
     describe("Converting to FPCL", function() { // checklistsToFpcl()
@@ -178,9 +242,11 @@ describe('FPCL Convertion', function() {
                     "title": "Your first checklist",
                     "items": [
                         {
+                            "kind": "todo",
                             "title": "Something to do",
                             "done": false
                         }, {
+                            "kind": "todo",
                             "title": "Done item",
                             "done": true
                         }
@@ -192,6 +258,67 @@ describe('FPCL Convertion', function() {
 
 - [ ] Something to do
 - [x] Done item
+`;
+
+            var result = checklistsToFpcl(checklists);
+            chai.assert.equal(expected, result);
+        });
+
+        it("Should convert notes to Markdown", function() {
+            var checklists = [
+                {
+                    "title": "Your first list",
+                    "items": [
+                        {
+                            "kind": "note",
+                            "title": "Your first note"
+                        }
+                    ]
+                }
+            ];
+
+            var expected = `# Your first list
+
+Your first note
+`;
+
+            var result = checklistsToFpcl(checklists);
+            chai.assert.equal(expected, result);
+        });
+
+        it("Shouldn't mix notes and to do items", function() {
+            var checklists = [
+                {
+                    "title": "Your first list",
+                    "items": [
+                        {
+                            "kind": "todo",
+                            "title": "First item",
+                            "done": false
+                        }, {
+                            "kind": "note",
+                            "title": "Second item"
+                        }, {
+                            "kind": "note",
+                            "title": "Third item"
+                        }, {
+                            "kind": "todo",
+                            "title": "Fourth item",
+                            "done": false
+                        }
+                    ]
+                }
+            ];
+
+            var expected = `# Your first list
+
+- [ ] First item
+
+Second item
+
+Third item
+
+- [ ] Fourth item
 `;
 
             var result = checklistsToFpcl(checklists);
@@ -222,7 +349,7 @@ describe("Auxiliar Functions", function() {
                 },
                 {
                     content: "Random content",
-                    expected: null
+                    expected: "note"
                 }
             ];
             for (var i = 0; i < scenarios.length; i++) {
