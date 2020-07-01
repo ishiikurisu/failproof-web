@@ -57,6 +57,7 @@ function saveChecklists(checklists) {
  */
 function checklistsToFpcl(checklists) {
     var outlet = "";
+    var listBreak = "";
 
     for (var i = 0; i < checklists.length; i++) {
         var checklist = checklists[i];
@@ -66,7 +67,7 @@ function checklistsToFpcl(checklists) {
             var item = items[j];
             switch (item.kind) {
                 case "note":
-                    box += `${item.title}\n`
+                    box += `${item.title}\n`;
                     break;
                 case "todo":
                     var checked = `- [${(item.done)? "x" : " "}] `;
@@ -75,7 +76,8 @@ function checklistsToFpcl(checklists) {
 
             }
         }
-        outlet += box;
+        outlet += `${listBreak}${box}`;
+        listBreak = "\n";
     }
 
     return outlet;

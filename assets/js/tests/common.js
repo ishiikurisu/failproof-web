@@ -321,6 +321,41 @@ Third item
             var result = checklistsToFpcl(checklists);
             chai.assert.equal(expected, result);
         });
+
+        it("Should draw lists with space between then", function() {
+            var checklists = [
+                {
+                    "title": "Your first list",
+                    "items": [
+                        {
+                            "kind": "todo",
+                            "title": "An item",
+                            "done": false
+                        }
+                    ]
+                }, {
+                    "title": "Your second list",
+                    "items": [
+                        {
+                            "kind": "note",
+                            "title": "Another item"
+                        }
+                    ]
+                }
+            ];
+
+            var expected = `# Your first list
+
+- [ ] An item
+
+# Your second list
+
+Another item
+`;
+
+            var result = checklistsToFpcl(checklists);
+            chai.assert.equal(expected, result);
+        });
     });
 });
 
