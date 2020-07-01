@@ -40,6 +40,54 @@ function displayChecklistList() {
 }
 
 /**
+ * Creates a trash icon for a list item
+ * @param index list index
+ * @param i item index inside list
+ * @returns HTML for trash icon
+ */
+function generateTrashIcon(index, i) {
+    return `<i class="fa fa-trash" aria-hidden="true" onclick="deleteItemCallback(${index}, ${i})"></i>`;
+}
+
+/**
+ * Creates a task for a list item
+ * @param item the task item
+ * @param index list index
+ * @param i item index inside list
+ * @returns HTML for task item
+ */
+function generateTodoItem(item, index, i) {
+    var checkboxId = "checkbox-" + index + "-" + i;
+    var textId = "text-" + index + "-" + i;
+    var checked = (item.done)? "checked" : "";
+
+    return `
+        <p>
+            <input type="checkbox" id="${checkboxId}" name="checkbox" value="${checkboxId}" ${checked}>
+            <input type="text" name="block-text" id="label-${checkboxId}" class="textboxLabel editable-title" for="${checkboxId}" value="${item.title}">
+            ${generateTrashIcon(index, i)}
+        </p>
+    `;
+}
+
+/**
+ * Creates a tnote for a list item
+ * @param item the note item
+ * @param index list index
+ * @param i item index inside list
+ * @returns HTML for note item
+ */
+function generateNoteItem(item, index, i) {
+    var noteId = `note-${index}-${i}`;
+    return `
+        <p>
+            <input type="text" name="block-text" id="label-${noteId}" class="textboxLabel editable-title" value="${item.title}">
+            ${generateTrashIcon(index, i)}
+        </p>
+    `;
+}
+
+/**
  * Generates the main div content for a checklist
  * @param checklists the list of all checklists
  * @param index the reference checklist
@@ -50,19 +98,15 @@ function generateChecklistContent(checklists, index) {
     var checklist = checklists[index];
     var checklistBody = "";
 
+    const generatorsByKind = {
+        note: generateNoteItem,
+        todo: generateTodoItem
+    }
+
     // TODO move items around
     for (var i = 0; i < checklist.items.length; i++) {
         var item = checklist.items[i];
-        var checkboxId = "checkbox-" + index + "-" + i;
-        var textId = "text-" + index + "-" + i;
-        var checked = (item.done)? "checked" : "";
-        var itemBody = `
-            <p>
-                <input type="checkbox" id="${checkboxId}" name="checkbox" value="${checkboxId}" ${checked}>
-                <input type="text" id="label-${checkboxId}" class="textboxLabel editable-title" for="${checkboxId}" value="${item.title}">
-                <i class="fa fa-trash" aria-hidden="true" onclick="deleteItemCallback(${index}, ${i})"></i>
-            </p>
-        `;
+        var itemBody = generatorsByKind[item.kind](item, index, i);
         checklistBody += itemBody;
     }
 
@@ -81,6 +125,7 @@ function generateChecklistContent(checklists, index) {
 
         <div class="email-content-body">
             ${checklistBody}
+            <!-- TODO Add buttons for adding more items -->
         </div>
     </div>`;
 }
@@ -101,15 +146,21 @@ function displayChecklist(i) {
  */
 function readChecklist() {
     var items = [];
-    var checkboxes = document.getElementsByName('checkbox');
+    var blocks = document.getElementsByName('block-text');
 
-    for (var i = 0; i < checkboxes.length; i++) {
-        var checkbox = checkboxes[i];
-        var label = findLabelForCheckbox(checkbox.id);  // IDEA replace this by a map from checkboxes to labels
-        items.push({
-            'title': label.value,
-            'done': checkbox.checked
-        });
+    for (var i = 0; i < blocks.length; i++) {
+        var block = blocks[i];
+        var checkbox = document.getElementById(block.getAttribute('for'));
+        var item = {
+            kind: (!checkbox)? 'note' : 'todo',
+            title: block.value
+        };
+
+        if (!!checkbox) {
+            item.done = checkbox.checked;
+        }
+
+        items.push(item);
     }
 
     return {
@@ -167,6 +218,22 @@ function addItemCallback(index) {
     var checklists = loadChecklists();
     var checklist = readChecklist();
     checklist.items.push({
+        "kind": "note",
+        "title": "New item"
+    })
+    checklists[index] = checklist;
+    saveChecklists(checklists);
+    displayChecklist(index);
+}
+
+/**
+ * Reaction to clicking "Add task" on a list
+ */
+function addItemCallback(index) {
+    var checklists = loadChecklists();
+    var checklist = readChecklist();
+    checklist.items.push({
+        "kind": "todo",
         "title": "New item",
         "done": false
     })
