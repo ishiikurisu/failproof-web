@@ -13,13 +13,13 @@
 function generateChecklistCard(checklists, i) {
     var checklist = checklists[i];
     return `
-    <div class="email-item pure-g" onclick="displayChecklist(` + i + `)" id="checklist-` + i + `">
+    <div class="email-item pure-g" onclick="displayChecklist(${i})" id="checklist-${i}">
         <div class="pure-u">
             <img width="64" height="64" alt="Checklist" class="email-avatar" src="https://via.placeholder.com/64/FFCD8A/000000/?text=Checklist">
         </div>
 
         <div class="pure-u-3-4">
-            <h5 class="email-name">` + checklist.title + `</h5>
+            <h5 class="email-name">${checklist.title}</h5>
             <p class="email-desc">
                 <i class="fa fa-trash" aria-hidden="true" onclick="deleteChecklistCallback(${i})"></i>
             </p>
@@ -61,8 +61,6 @@ function generateTodoItem(item, index, i) {
     var textId = "text-" + index + "-" + i;
     var checked = (item.done)? "checked" : "";
 
-    // TODO make change class on click
-    // TODO update CSS to better represent each status
     return `
         <div class="block-item">
             <input type="checkbox" class="block-todo-item" id="${checkboxId}" name="checkbox" value="${checkboxId}" ${checked}>
@@ -71,6 +69,7 @@ function generateTodoItem(item, index, i) {
                  contentEditable="true"
                  name="block-text"
                  for="${checkboxId}">${item.title}</div>
+            ${generateTrashIcon(index, i)}
         </div>
     `;
 }
@@ -90,6 +89,7 @@ function generateNoteItem(item, index, i) {
                  class="editable"
                  contentEditable="true"
                  name="block-text">${item.title}</div>
+            ${generateTrashIcon(index, i)}
         </div>
     `;
 }

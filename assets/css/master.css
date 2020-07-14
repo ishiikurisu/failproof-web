@@ -292,12 +292,12 @@ a {
 }
 
 .editable {
-    display: inline-block;
+    display: flex;
+    flex-grow: 100;
     border: 0;
     outline: 0;
     background: transparent;
     border-bottom: 1px solid #ddd;
-    width: 90%;
 }
 
 .editchecklist {
