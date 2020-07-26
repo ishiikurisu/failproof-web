@@ -52,12 +52,32 @@ function saveChecklists(checklists) {
 
 /* TABLES */
 
+/**
+ * Converts a Markdown line into an entry for FPCL tables
+ */
 function lineMd2Entry(line) {
     var fields = line.replace(/^\||\|$/gm, "").split('|');
     for (var j = 0; j < fields.length; j++) {
         fields[j] = fields[j].trim();
     }
     return fields;
+}
+
+/**
+ * expand FPCL table
+ */
+function expandTable(entries, expansions) {
+    for (var j = 0; j < expansions.length; j++) {
+        var title = expansions[j].title;
+        var code = expansions[j].code;
+        var f = eval(code);
+
+        for (var i = 0; i < entries.length; i++) {
+            entries[i][title] = f(i, entries[i]);
+        }
+    }
+
+    return entries;
 }
 
 /**
@@ -70,6 +90,9 @@ function tableMd2Fpcl(inlet) {
     var state = "header";
     var fields = [ ];
     var entries = [ ];
+    var expansions = [ ];
+    var titleRegex = /(.*?)\=/g;
+    var codeRegex = /\((.*?)\) => (.*)/g;
 
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
@@ -83,22 +106,32 @@ function tableMd2Fpcl(inlet) {
                 break;
             case "entry":
                 if (line.length === 0) {
+                    // empty line
                     continue;
-                }
+                } else if (line[0] === ':') {
+                    // new expansion
+                    line = line.substring(1).trim();
+                    expansions.push({
+                        title: line.match(titleRegex)[0].replace(/([\s=]*)$/gm, ""),
+                        code: line.match(codeRegex)[0].replace(/(^[\s=])/gm, "").trim()
+                    });
+                } else {
+                    // new entry
+                    var values = lineMd2Entry(line);
+                    var entry = { };
+                    for (var j = 0; j < fields.length; j++) {
+                        entry[fields[j]] = values[j];
+                    }
+                    entries.push(entry);
 
-                var values = lineMd2Entry(line);
-                var entry = { };
-                for (var j = 0; j < fields.length; j++) {
-                    entry[fields[j]] = values[j];
                 }
-                entries.push(entry);
                 break;
         }
     }
 
     return {
         kind: "table",
-        entries: entries
+        entries: expandTable(entries, expansions)
     }
 }
 
