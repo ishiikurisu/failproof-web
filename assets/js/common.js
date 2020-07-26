@@ -104,11 +104,60 @@ function tableMd2Fpcl(inlet) {
 
 /**
  * Converts a FPCL block into a Markdown table
- * @param inlet the FPCL block
+ * @param inlet the FPCL table entries
  * @returns the markdown table as a string
  */
 function tableFpcl2Md(inlet) {
+    var keys = [ ];
+    var keyLength = { };
+    var outlet = "";
+    var i, j;
 
+    // getting all keys from inlet
+    for (i = 0; i < inlet.length; i++) {
+        var entryKeys = Object.keys(inlet[i]);
+        for (j = 0; j < entryKeys.length; j++) {
+            var key = entryKeys[j];
+            if (!keys.includes(key)) {
+                keys.push(key);
+                keyLength[key] = key.length;
+            }
+        }
+    }
+
+    // getting maximum length for all keys
+    for (i = 0; i < inlet.length; i++) {
+        for (j = 0; j < keys.length; j++) {
+            var key = keys[j];
+            var entry = inlet[i][key];
+            keyLength[key] = Math.max(keyLength[key], entry.length);
+        }
+    }
+
+    // building all entries for inlet
+    // ...first, header
+    var fields = [];
+    for (i = 0; i < keys.length; i++) {
+        fields[i] = keys[i].padEnd(keyLength[keys[i]], " ");
+    }
+    outlet += `| ${fields.join(' | ')} |\n`;
+    fields = [];
+    for (i = 0; i < keys.length; i++) {
+        fields[i] = "".padStart(keyLength[keys[i]] + 2, "-");
+    }
+    outlet += `|${fields.join('|')}|\n`;
+
+    // ...then, body
+    for (j = 0; j < inlet.length; j++) {
+        fields = [];
+        for (i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            fields[i] = inlet[j][key].padEnd(keyLength[key], " ");
+        }
+        outlet += `| ${fields.join(' | ')} |\n`;
+    }
+
+    return outlet;
 }
 
 /* FPCL TO CHECKLISTS */

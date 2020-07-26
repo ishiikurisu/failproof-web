@@ -50,7 +50,7 @@ describe('FPCL Tables', function() {
 | Pietro | 23  |
 | Flora  | 16  |
 `;
-            var result = tableFpcl2Md(block);
+            var result = tableFpcl2Md(block.entries);
             chai.assert(expected === result, 'Generated correct Markdown');
         });
     });
