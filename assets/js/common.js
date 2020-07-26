@@ -50,6 +50,67 @@ function saveChecklists(checklists) {
 // # API MANAGEMENT #
 // ##################
 
+/* TABLES */
+
+function lineMd2Entry(line) {
+    var fields = line.replace(/^\||\|$/gm, "").split('|');
+    for (var j = 0; j < fields.length; j++) {
+        fields[j] = fields[j].trim();
+    }
+    return fields;
+}
+
+/**
+ * Converts a Markdown table into a FPCL block
+ * @param inlet the markdown table as a string
+ * @returns the FPCL block
+ */
+function tableMd2Fpcl(inlet) {
+    var lines = inlet.split('\n');
+    var state = "header";
+    var fields = [ ];
+    var entries = [ ];
+
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        switch (state) {
+            case "header":
+                fields = lineMd2Entry(line);
+                state = "header detail";
+                break;
+            case "header detail":
+                state = "entry";
+                break;
+            case "entry":
+                if (line.length === 0) {
+                    continue;
+                }
+
+                var values = lineMd2Entry(line);
+                var entry = { };
+                for (var j = 0; j < fields.length; j++) {
+                    entry[fields[j]] = values[j];
+                }
+                entries.push(entry);
+                break;
+        }
+    }
+
+    return {
+        kind: "table",
+        entries: entries
+    }
+}
+
+/**
+ * Converts a FPCL block into a Markdown table
+ * @param inlet the FPCL block
+ * @returns the markdown table as a string
+ */
+function tableFpcl2Md(inlet) {
+
+}
+
 /* FPCL TO CHECKLISTS */
 
 /**
