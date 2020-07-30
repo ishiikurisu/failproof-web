@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Failproof Checklists">
+    <title>Failproof Checklists</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+    <link rel="icon" href="/.assets/logo.png">
+    <link rel="stylesheet" href="./assets/css/master.css">
+</head>
+<body>
+
+<div class="pure-g">
+    <form class="pure-form pure-form-stacked">
+        <fieldset>
+            <legend>Log In</legend>
+            <label for="stacked-username">Username</label>
+            <input type="text" id="stacked-username" placeholder="Username" /><br/>
+            <span class="pure-form-message">This is a required field.</span><br/>
+            <label for="stacked-password">Password</label>
+            <input type="password" id="stacked-password" placeholder="Password" /><br/>
+            <label for="stacked-remember" class="pure-checkbox">
+            <input type="checkbox" id="stacked-remember" /> Remember me</label><br/>
+            <a class="pure-button pure-button-primary" onclick="login()">Log in</a><br/>
+        </fieldset>
+    </form>
+    <a href="./sign_up.html">Sign up instead?</a>
+</div>
+    
+<script src="./assets/js/util.js" charset="utf-8"></script>
+<script src="./assets/js/common.js" charset="utf-8"></script>    
+<script src="./assets/js/authentication.js" charset="utf-8"></script>
+<script src="./assets/js/login-sign_up.js" charset="utf-8"></script>
+<script type="text/javascript">
+    setup();
+    draw();
+</script>
+
+
+</body>
+</html>
