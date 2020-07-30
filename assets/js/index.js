@@ -306,6 +306,14 @@ function navMenuButtonCallback() {
  * Call when the page is first loaded
  */
 function setup() {
+    // navbar setup
+    if (isUserAuthenticated()) {
+        addLogoutButton();
+    } else {
+        addLoginButton();
+    }
+    
+    // checklist setup
     var checklists = loadChecklists();
     if (checklists.length === 0) {
         checklists.push(createDummyChecklist());
