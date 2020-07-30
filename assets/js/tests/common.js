@@ -390,3 +390,159 @@ describe("Auxiliar Functions", function() {
         });
     });
 });
+
+/* #####################
+   # INTEGRATION TESTS #
+   ##################### */
+describe('FPCL API Integration', function() {
+    describe('Users', function() {  // fpclToChecklists()
+        it('Should be able to create users', function(done) {
+            // set fo false so we don't create new users
+            if (false) {
+                var request = new XMLHttpRequest();
+                request.open('POST', 'https://fpcl.herokuapp.com/users/create', true);
+                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                request.onload = function() {
+                    var result = false;
+                    if (this.status >= 200 && this.status < 400) {
+                        result = true;
+                    }
+                    chai.assert(result);
+                    done();
+                }
+                request.send(JSON.stringify({
+                    username: "username",
+                    password: "password",
+                    notes: null
+                }));
+            } else {
+                done();
+            }
+        });
+        
+        it('Should be able to authorize users', function(done) {
+            var auth_key = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMiJ9.OVI3Dw2B-2Uu9irHqpJCRHJ5E4g3YdkMzb71SeoMwck"  
+          
+            var request = new XMLHttpRequest();
+            request.open('POST', 'https://fpcl.herokuapp.com/users/auth', true);
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            request.onload = function() {
+                var result = false;
+                if (this.status >= 200 && this.status < 400) {
+                    var response = JSON.parse(this.response);
+                    result = response["auth_key"] == auth_key;
+                }
+                chai.assert(result);
+                done();
+            }
+            request.send(JSON.stringify({
+                username: "username",
+                password: "password"
+            }));
+        });
+    });
+    
+    describe('Notes', function() {
+        it('Should be able to get notes', function(done) {
+            var auth_key = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMiJ9.OVI3Dw2B-2Uu9irHqpJCRHJ5E4g3YdkMzb71SeoMwck";
+            var request = new XMLHttpRequest();
+            request.open('GET', `https://fpcl.herokuapp.com/notes?auth_key=${auth_key}`, true);
+            request.onload = function() {
+                var result = false;
+                if (this.status >= 200 && this.status < 400) {
+                    var response = JSON.parse(this.response);
+                    result = response["notes"] == "";
+                }
+                chai.assert(result);
+                done();
+            }
+            request.send();
+        });
+        
+        it('Should be able to udpate notes', function(done) {
+            const changeNotesBackCallback = function(auth_key, oldNotes) {
+                var request = new XMLHttpRequest();
+                request.open('POST', 'https://fpcl.herokuapp.com/notes', true);
+                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                request.onload = function() {
+                    var result = false;
+                    if (this.status >= 200 && this.status < 400) {
+                        result = JSON.parse(this.response).error === null;
+                    }
+                    chai.assert(result);
+                    done();
+                }
+                request.send(JSON.stringify({
+                    auth_key: auth_key,
+                    notes: oldNotes
+                }));
+            }
+            
+            const checkIfUpdateWorkedCallback = function(auth_key, oldNotes, newNotes) {
+                var request = new XMLHttpRequest();
+                request.open('GET', `https://fpcl.herokuapp.com/notes?auth_key=${auth_key}`, true);
+                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                request.onload = function() {
+                    var result = false;
+                    if (this.status >= 200 && this.status < 400) {
+                        var response = JSON.parse(this.response);
+                        chai.assert(response["notes"] === newNotes);
+                        changeNotesBackCallback(auth_key, oldNotes);
+                    } else {
+                        chai.assert(false);
+                        done();
+                    }
+                }
+                request.send();
+            }
+            
+            const afterAuthCallback = function(auth_key, oldNotes, newNotes) {
+                var request = new XMLHttpRequest();
+                request.open('POST', 'https://fpcl.herokuapp.com/notes', true);
+                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                request.onload = function() {
+                    var result = false;
+                    if (this.status >= 200 && this.status < 400) {
+                        chai.assert(JSON.parse(this.response).error === null);
+                        checkIfUpdateWorkedCallback(auth_key, oldNotes, newNotes);
+                    } else {
+                        chai.assert(false);
+                        done();
+                    }
+                }
+                request.send(JSON.stringify({
+                    auth_key: auth_key,
+                    notes: newNotes
+                }));
+            }
+            
+            const checkAuthWorksCallback = function(auth_key, newNotes) {
+                var request = new XMLHttpRequest();
+                request.open('POST', 'https://fpcl.herokuapp.com/users/auth', true);
+                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                request.onload = function() {
+                    var result = false;
+                    if (this.status >= 200 && this.status < 400) {
+                        var response = JSON.parse(this.response);
+                        chai.assert(response["auth_key"] === auth_key);
+                        afterAuthCallback(response["auth_key"], response["notes"], newNotes);
+                    } else {
+                        chai.assert(false);
+                        done();
+                    }
+                }
+                request.send(JSON.stringify({
+                    username: "username",
+                    password: "password"
+                }));
+            }
+            
+          
+            var auth_key = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMiJ9.OVI3Dw2B-2Uu9irHqpJCRHJ5E4g3YdkMzb71SeoMwck"  
+            var newNotes = `# Just a title here
+`;
+            
+            checkAuthWorksCallback(auth_key, newNotes);
+        });
+    });
+});
