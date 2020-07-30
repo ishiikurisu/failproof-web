@@ -7,8 +7,11 @@
  */
 function saveCallback() {
     var textarea = document.getElementById('checklistform');
-    var checklists = fpclToChecklists(textarea.value);
+    var rawChecklists = textarea.value;
+    var checklists = fpclToChecklists(rawChecklists);
     saveChecklists(checklists);
+    console.log(rawChecklists);
+    maybeCloudSaveChecklists(rawChecklists);
     window.location = "./";
 }
 
@@ -29,6 +32,14 @@ function navMenuButtonCallback() {
  * Called when first entering the page
  */
 function setup() {
+    // navbar setup
+    if (isUserAuthenticated()) {
+        addLogoutButton();
+    } else {
+        addLoginButton();
+    }
+    
+    // content setup
     var textarea = document.getElementById('checklistform');
     var checklists = loadChecklists(checklists);
     textarea.value = checklistsToFpcl(checklists);
