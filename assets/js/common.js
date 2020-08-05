@@ -120,7 +120,7 @@ function identifyKind(line) {
  */
 function fpclToChecklists(md) {
     var checklists = [];
-    var lines = md.split('\n');
+    var lines = ((md[md.length - 1] !== '\n')? md + "\n" : md).split('\n');
     var currentChecklist = null;
     var currentState = "title";
 

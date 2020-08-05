@@ -46,6 +46,16 @@ describe('FPCL Convertion', function() {
             ]
             var resultingChecklists = fpclToChecklists(fpcl);
             assertEqualFpcl(expectedChecklists, resultingChecklists);
+            
+            fpcl = `# Your first checklist`
+            expectedChecklists = [
+                {
+                    "title": encodeURIComponent("Your first checklist"),
+                    "items": [ ]
+                }
+            ]
+            resultingChecklists = fpclToChecklists(fpcl);
+            assertEqualFpcl(expectedChecklists, resultingChecklists);
         });
 
         it('Should convert a couple of lists correctly', function() {
@@ -419,10 +429,10 @@ describe('FPCL API Integration', function() {
                 done();
             }
         });
-        
+
         it('Should be able to authorize users', function(done) {
-            var auth_key = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMiJ9.OVI3Dw2B-2Uu9irHqpJCRHJ5E4g3YdkMzb71SeoMwck"  
-          
+            var auth_key = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMiJ9.OVI3Dw2B-2Uu9irHqpJCRHJ5E4g3YdkMzb71SeoMwck"
+
             var request = new XMLHttpRequest();
             request.open('POST', 'https://fpcl.herokuapp.com/users/auth', true);
             request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
@@ -441,7 +451,7 @@ describe('FPCL API Integration', function() {
             }));
         });
     });
-    
+
     describe('Notes', function() {
         it('Should be able to get notes', function(done) {
             var auth_key = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMiJ9.OVI3Dw2B-2Uu9irHqpJCRHJ5E4g3YdkMzb71SeoMwck";
@@ -458,8 +468,8 @@ describe('FPCL API Integration', function() {
             }
             request.send();
         });
-        
-        it('Should be able to udpate notes', function(done) {
+
+        it('Should be able to update notes', function(done) {
             const changeNotesBackCallback = function(auth_key, oldNotes) {
                 var request = new XMLHttpRequest();
                 request.open('POST', 'https://fpcl.herokuapp.com/notes', true);
@@ -477,7 +487,7 @@ describe('FPCL API Integration', function() {
                     notes: oldNotes
                 }));
             }
-            
+
             const checkIfUpdateWorkedCallback = function(auth_key, oldNotes, newNotes) {
                 var request = new XMLHttpRequest();
                 request.open('GET', `https://fpcl.herokuapp.com/notes?auth_key=${auth_key}`, true);
@@ -495,7 +505,7 @@ describe('FPCL API Integration', function() {
                 }
                 request.send();
             }
-            
+
             const afterAuthCallback = function(auth_key, oldNotes, newNotes) {
                 var request = new XMLHttpRequest();
                 request.open('POST', 'https://fpcl.herokuapp.com/notes', true);
@@ -515,7 +525,7 @@ describe('FPCL API Integration', function() {
                     notes: newNotes
                 }));
             }
-            
+
             const checkAuthWorksCallback = function(auth_key, newNotes) {
                 var request = new XMLHttpRequest();
                 request.open('POST', 'https://fpcl.herokuapp.com/users/auth', true);
@@ -536,12 +546,12 @@ describe('FPCL API Integration', function() {
                     password: "password"
                 }));
             }
-            
-          
-            var auth_key = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMiJ9.OVI3Dw2B-2Uu9irHqpJCRHJ5E4g3YdkMzb71SeoMwck"  
+
+
+            var auth_key = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMiJ9.OVI3Dw2B-2Uu9irHqpJCRHJ5E4g3YdkMzb71SeoMwck"
             var newNotes = `# Just a title here
 `;
-            
+
             checkAuthWorksCallback(auth_key, newNotes);
         });
     });

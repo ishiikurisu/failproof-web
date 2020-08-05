@@ -38,21 +38,29 @@ function signUpUser(payload, callback) {
 /**
  * If the user is logged in, stores his notes in the cloud
  */
-function maybeCloudSaveChecklists(notes) {
+function maybeCloudSaveChecklists(notes, callback) {
     var auth_key = getCookie("auth_key");
+    
     if (!!auth_key) {
         var request = new XMLHttpRequest();
         request.open('POST', `https://fpcl.herokuapp.com/notes`, true);
         request.onload = function() {
+            var payload = {
+                error: "Internal Server error"
+            }; 
             if (this.status >= 200 && this.status < 400) {
                 var response = JSON.parse(this.response);
-            } else {
-                console.log("something happened!");
+                payload = response;
             }
+            callback(payload);
         }
         request.send(JSON.stringify({
             auth_key: auth_key,
             notes: notes
         }));
+    } else {
+        callback({
+            warning: "User not logged in"
+        });
     }
 }
