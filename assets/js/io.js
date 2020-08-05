@@ -9,10 +9,15 @@ function saveCallback() {
     var textarea = document.getElementById('checklistform');
     var rawChecklists = textarea.value;
     var checklists = fpclToChecklists(rawChecklists);
-    saveChecklists(checklists);
     console.log(rawChecklists);
-    maybeCloudSaveChecklists(rawChecklists);
-    window.location = "./";
+    console.log(checklists);
+    saveChecklists(checklists);
+    maybeCloudSaveChecklists(rawChecklists, function(response) {
+        if (!!response.error) {
+            alert(response.error);
+        }
+        window.location = "./";    
+    });
 }
 
 /**
