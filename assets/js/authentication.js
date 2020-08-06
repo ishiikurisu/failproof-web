@@ -64,3 +64,31 @@ function maybeCloudSaveChecklists(notes, callback) {
         });
     }
 }
+
+/**
+ * If the user is logged in, gets the most up to date version of the checklist
+ * @param callback function to be called after the checklists are in sync on memory
+ */
+function maybeSync(callback) {
+    var auth_key = getCookie("auth_key");
+    
+    if (!!auth_key) {
+        var request = new XMLHttpRequest();
+        
+        request.open('POST', `https://fpcl.herokuapp.com/sync`, true);
+        request.onload = function() {
+            if (this.status >= 200 && this.status < 400) {
+                var response = JSON.parse(this.response);
+                saveChecklists(response.notes);
+            }
+            callback();
+        }
+        request.send(JSON.stringify({
+            auth_key: auth_key,
+            notes: loadChecklists(),
+            last_updated: getCookie('last_updated')
+        }));
+    } else {
+        callback();
+    }
+}

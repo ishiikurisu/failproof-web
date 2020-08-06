@@ -51,7 +51,7 @@ function saveChecklists(checklists) {
     request.onload = function() {
         if (this.status >= 200 && this.status < 400) {
             var response = JSON.parse(this.response);
-            setCookie('last_updated'. response.now);
+            setCookie('last_updated', response.now);
         }
     }
     request.send();
