@@ -44,6 +44,17 @@ function createDummyChecklist() {
  */
 function saveChecklists(checklists) {
     setCookie('checklists', JSON.stringify(checklists));
+
+    // syncing last updated cookie
+    var request = new XMLHttpRequest();
+    request.open('GET', `https://fpcl.herokuapp.com/now`, true);
+    request.onload = function() {
+        if (this.status >= 200 && this.status < 400) {
+            var response = JSON.parse(this.response);
+            setCookie('last_updated'. response.now);
+        }
+    }
+    request.send();
 }
 
 // ##################

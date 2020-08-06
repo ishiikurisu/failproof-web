@@ -9,8 +9,6 @@ function saveCallback() {
     var textarea = document.getElementById('checklistform');
     var rawChecklists = textarea.value;
     var checklists = fpclToChecklists(rawChecklists);
-    console.log(rawChecklists);
-    console.log(checklists);
     saveChecklists(checklists);
     maybeCloudSaveChecklists(rawChecklists, function(response) {
         if (!!response.error) {
