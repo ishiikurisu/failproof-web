@@ -23,7 +23,7 @@ function login() {
         if (result === null || result.auth_key === null) {
             alert("Oops :(");
         } else {
-            setCookie("checklists", JSON.stringify(fpclToChecklists(result.notes)));
+            saveChecklists(fpclToChecklists(result.notes));
             setCookie("auth_key", result.auth_key);
             window.location.replace("./index.html");
         }

@@ -79,13 +79,13 @@ function maybeSync(callback) {
         request.onload = function() {
             if (this.status >= 200 && this.status < 400) {
                 var response = JSON.parse(this.response);
-                saveChecklists(response.notes);
+                saveChecklists(fpclToChecklists(response.notes));
             }
             callback();
         }
         request.send(JSON.stringify({
             auth_key: auth_key,
-            notes: loadChecklists(),
+            notes: checklistsToFpcl(loadChecklists()),
             last_updated: getCookie('last_updated')
         }));
     } else {
