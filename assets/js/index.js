@@ -314,12 +314,13 @@ function setup() {
     }
     
     // checklist setup
-    var checklists = loadChecklists();
-    if (checklists.length === 0) {
-        checklists.push(createDummyChecklist());
-        // TODO display empty page
-    }
-    saveChecklists(checklists);
+    maybeSync(function() {
+        var checklists = loadChecklists();
+        if (checklists.length === 0) {
+            checklists.push(createDummyChecklist());
+            saveChecklists(checklists);    
+        }
+    });
 }
 
 /**
