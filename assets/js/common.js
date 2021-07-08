@@ -61,6 +61,149 @@ function saveChecklists(checklists) {
 // # API MANAGEMENT #
 // ##################
 
+/* TABLES */
+
+/**
+ * Converts a Markdown line into an entry for FPCL tables
+ */
+function lineMd2Entry(line) {
+    var fields = line.replace(/^\||\|$/gm, "").split('|');
+    for (var j = 0; j < fields.length; j++) {
+        fields[j] = fields[j].trim();
+    }
+    return fields;
+}
+
+/**
+ * expand FPCL table
+ */
+function expandTable(entries, expansions) {
+    for (var j = 0; j < expansions.length; j++) {
+        var title = expansions[j].title;
+        var code = expansions[j].code;
+        var f = eval(code);
+
+        for (var i = 0; i < entries.length; i++) {
+            entries[i][title] = f(i, entries[i]);
+        }
+    }
+
+    return entries;
+}
+
+/**
+ * Converts a Markdown table into a FPCL block
+ * @param inlet the markdown table as a string
+ * @returns the FPCL block
+ */
+function tableMd2Fpcl(inlet) {
+    var lines = inlet.split('\n');
+    var state = "header";
+    var fields = [ ];
+    var entries = [ ];
+    var expansions = [ ];
+    var titleRegex = /(.*?)\=/g;
+    var codeRegex = /\((.*?)\) => (.*)/g;
+
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        switch (state) {
+            case "header":
+                fields = lineMd2Entry(line);
+                state = "header detail";
+                break;
+            case "header detail":
+                state = "entry";
+                break;
+            case "entry":
+                if (line.length === 0) {
+                    // empty line
+                    continue;
+                } else if (line[0] === ':') {
+                    // new expansion
+                    line = line.substring(1).trim();
+                    expansions.push({
+                        title: line.match(titleRegex)[0].replace(/([\s=]*)$/gm, ""),
+                        code: line.match(codeRegex)[0].replace(/(^[\s=])/gm, "").trim()
+                    });
+                } else {
+                    // new entry
+                    var values = lineMd2Entry(line);
+                    var entry = { };
+                    for (var j = 0; j < fields.length; j++) {
+                        entry[fields[j]] = values[j];
+                    }
+                    entries.push(entry);
+
+                }
+                break;
+        }
+    }
+
+    return {
+        kind: "table",
+        entries: expandTable(entries, expansions)
+    }
+}
+
+/**
+ * Converts a FPCL block into a Markdown table
+ * @param inlet the FPCL table entries
+ * @returns the markdown table as a string
+ */
+function tableFpcl2Md(inlet) {
+    var keys = [ ];
+    var keyLength = { };
+    var outlet = "";
+    var i, j;
+
+    // getting all keys from inlet
+    for (i = 0; i < inlet.length; i++) {
+        var entryKeys = Object.keys(inlet[i]);
+        for (j = 0; j < entryKeys.length; j++) {
+            var key = entryKeys[j];
+            if (!keys.includes(key)) {
+                keys.push(key);
+                keyLength[key] = key.length;
+            }
+        }
+    }
+
+    // getting maximum length for all keys
+    for (i = 0; i < inlet.length; i++) {
+        for (j = 0; j < keys.length; j++) {
+            var key = keys[j];
+            var entry = inlet[i][key];
+            keyLength[key] = Math.max(keyLength[key], entry.length);
+        }
+    }
+
+    // building all entries for inlet
+    // ...first, header
+    var fields = [];
+    for (i = 0; i < keys.length; i++) {
+        fields[i] = keys[i].padEnd(keyLength[keys[i]], " ");
+    }
+    outlet += `| ${fields.join(' | ')} |\n`;
+    fields = [];
+    for (i = 0; i < keys.length; i++) {
+        fields[i] = "".padStart(keyLength[keys[i]] + 2, "-");
+    }
+    outlet += `|${fields.join('|')}|\n`;
+
+    // ...then, body
+    for (j = 0; j < inlet.length; j++) {
+        fields = [];
+        for (i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            fields[i] = inlet[j][key].padEnd(keyLength[key], " ");
+        }
+        outlet += `| ${fields.join(' | ')} |\n`;
+    }
+
+    return outlet;
+}
+
 /* FPCL TO CHECKLISTS */
 
 /**
