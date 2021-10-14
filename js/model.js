@@ -16,8 +16,55 @@ function dropDb() {
 }
 
 /**
- *
+ * Creates UUID identifier
+ */
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+/**
+ * generates a local storage key for a note id
+ */
+function noteIdKey(noteId) {
+    return `note-{noteId}`;
+}
+
+/**
+ * Lists all notes
+ */
+function getNotes() {
+    return JSON.parse(localStorage.getItem("index"));
+}
+
+/**
+ * Creates a new empty note in the archive index
+ * @returns the new note id
  */
 function createNote() {
-    return null;
+    var noteId = uuidv4();
+    var note = {
+        id: noteId,
+        title: "New note",
+        kind: "md",
+        contents: ""
+    };
+
+    var archiveIndex = getNotes();
+    archiveIndex.push(noteId);
+    localStorage.setItem("index", JSON.stringify(archiveIndex));
+    localStorage.setItem(noteIdKey(noteId), JSON.stringify(note));
+
+    return noteId;
+}
+
+/**
+ * Gets a note
+ * @param noteId the note id
+ * @returns null if there isn't a note with this id; or a note object
+ */
+function getNote(noteId) {
+    return JSON.parse(localStorage.getItem(noteIdKey(noteId)));
 }
