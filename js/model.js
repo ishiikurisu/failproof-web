@@ -110,7 +110,7 @@ function exportNotes() {
     var backup = {};
     var archiveIndex = getNotes();
 
-    for (var i = 0; i < archiveIndex; i++) {
+    for (var i = 0; i < archiveIndex.length; i++) {
         var noteId = archiveIndex[i];
         var note = getNote(noteId);
         backup[noteId] = note;
