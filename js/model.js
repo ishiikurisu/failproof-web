@@ -29,7 +29,7 @@ function uuidv4() {
  * generates a local storage key for a note id
  */
 function noteIdKey(noteId) {
-    return `note-{noteId}`;
+    return `note-${noteId}`;
 }
 
 /**
@@ -67,4 +67,19 @@ function createNote() {
  */
 function getNote(noteId) {
     return JSON.parse(localStorage.getItem(noteIdKey(noteId)));
+}
+
+/**
+ * Updates a note on the database
+ * @param noteId note id
+ * @param newNote the new note to be saved
+ */
+function updateNote(noteId, newNote) {
+    var oldNote = getNote(noteId);
+    localStorage.setItem(noteIdKey(noteId), JSON.stringify({
+        id: noteId,
+        kind: oldNote.kind,
+        title: newNote.title || oldNote.title,
+        contents: newNote.contents
+    }));
 }
