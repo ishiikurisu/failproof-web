@@ -28,6 +28,18 @@ function generateSaveCallback(noteId) {
 }
 
 /**
+ * Generates a callback to the delete button
+ * @param noteId id from the note that will be deleted
+ * @returns a function that will remove the current note from storage
+ */
+function generateDeleteCallback(noteId) {
+    return function() {
+        deleteNote(noteId);
+        window.location.href = window.location.origin + `/`;
+    }
+}
+
+/**
  * MAIN FUNCTION
  */
 function setup() {
@@ -37,4 +49,5 @@ function setup() {
     document.getElementById("title").innerHTML = note.title;
     document.getElementById("contents").innerHTML = note.contents || "Get started!";
     document.getElementById("save").addEventListener("click", generateSaveCallback(noteId));
+    document.getElementById("delete").addEventListener("click", generateDeleteCallback(noteId));
 }

@@ -83,3 +83,22 @@ function updateNote(noteId, newNote) {
         contents: newNote.contents
     }));
 }
+
+/**
+ * Removes a note from the database
+ * @param noteId note id
+ */
+function deleteNote(noteId) {
+    var oldArchiveIndex = getNotes();
+    var archiveIndex = [];
+
+    for (var i = 0; i < oldArchiveIndex.length; i++) {
+        var id = oldArchiveIndex[i];
+        if (noteId !== id) {
+            archiveIndex.push(id);
+        }
+    }
+
+    localStorage.setItem("index", JSON.stringify(archiveIndex));
+    localStorage.removeItem(noteIdKey(noteId));
+}

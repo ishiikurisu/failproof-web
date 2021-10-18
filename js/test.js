@@ -41,5 +41,39 @@ describe("Model Tests", function() {
 
             done();
         });
+
+        it("updates notes", function(done) {
+            var noteId = createNote();
+            var note = getNote(noteId);
+            var newContents = "Hello Joe!";
+            var oldTitle = note.title;
+            updateNote(noteId, {
+                "contents": newContents
+            });
+
+            note = getNote(noteId);
+            chai.assert.ok(note.title === oldTitle);
+            chai.assert.ok(note.contents === newContents);
+
+            done();
+        });
+
+        it("deletes notes", function(done) {
+            const noteId = createNote();
+            const verifyNote = function(noteId) {
+                var notes = getNotes();
+                for (var i = 0; i < notes.length; i++) {
+                    if (notes[i] == noteId)
+                        return true;
+                }
+                return false;
+            };
+
+            chai.assert.ok(verifyNote(noteId));
+            deleteNote(noteId);
+            chai.assert.ok(!verifyNote(noteId));
+
+            done();
+        });
     });
 });
