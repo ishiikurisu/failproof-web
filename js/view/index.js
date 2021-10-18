@@ -25,7 +25,7 @@ function generateNoteIdList() {
 
 function newNoteButtonClick() {
     var id = createNote();
-    window.location.href = window.location.origin + `/note.html?id=${id}`
+    window.location.href = `./note.html?id=${id}`
 }
 
 function setup() {
