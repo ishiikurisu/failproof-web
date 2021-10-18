@@ -16,5 +16,5 @@ function setup() {
     var note = getNote(noteId);
 
     document.getElementById("title").innerHTML = note.title;
-    document.getElementById("contents").innerHTML = note.contents;
+    document.getElementById("contents").innerHTML = note.contents || "Get started!";
 }
