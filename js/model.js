@@ -102,3 +102,37 @@ function deleteNote(noteId) {
     localStorage.setItem("index", JSON.stringify(archiveIndex));
     localStorage.removeItem(noteIdKey(noteId));
 }
+
+/**
+ * @returns a JSON with the exported notes
+ */
+function exportNotes() {
+    var backup = {};
+    var archiveIndex = getNotes();
+
+    for (var i = 0; i < archiveIndex; i++) {
+        var noteId = archiveIndex[i];
+        var note = getNote(noteId);
+        backup[noteId] = note;
+    }
+
+    return backup;
+}
+
+/**
+ * Fills database based on backup
+ * @param backup JSON note backup
+ */
+function importNotes(backup) {
+    var archiveIndex = [];
+
+    dropDb();
+    for (let noteId in backup) {
+        var note = backup[noteId];
+        localStorage.setItem(noteIdKey(noteId), JSON.stringify(note));
+
+        archiveIndex.push(noteId);
+    }
+
+    localStorage.setItem("index", JSON.stringify(archiveIndex));
+}

@@ -76,4 +76,26 @@ describe("Model Tests", function() {
             done();
         });
     });
+
+    // TODO verify how to test backups without messing with existing data
+    // describe("Backup", function() {
+    //     it("should import notes", function(done) {
+    //         var backup = {
+    //             "k1": {
+    //                 id: "k1",
+    //                 title: "1st note",
+    //                 contents: "hello joe!",
+    //                 kind: "md"
+    //             },
+    //             "k2": {
+    //                 id: "k2",
+    //                 title: "2nd note",
+    //                 contents: "hello frank!",
+    //                 kind: "md"
+    //             }
+    //         }
+    //         importNotes(backup);
+    //         done();
+    //     });
+    // });
 });
