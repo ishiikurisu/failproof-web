@@ -93,5 +93,20 @@ function downloadNotes(callback) {
  * @callback callback result from database call
  */
 function uploadNotes(notes, callback) {
+    var request = new XMLHttpRequest();
+    var data = {
+        auth_key: localStorage.getItem("auth_key"),
+        notes: notes
+    };
 
+    request.open("POST", `${FPCL_API_URL}/notes`, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+    request.onload = function() {
+        callback(this);
+    };
+    request.onerror = function() {
+        alert("Oops");
+    };
+
+    request.send(JSON.stringify(data));
 }

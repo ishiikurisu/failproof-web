@@ -24,6 +24,14 @@ function generateSaveCallback(noteId) {
             title: document.getElementById("title").innerHTML,
             contents: document.getElementById("contents").innerHTML
         });
+
+        if (isUserLoggedIn()) {
+            var saveButton = document.getElementById("save");
+            saveButton.innerHTML = "Uploading...";
+            uploadNotes(JSON.stringify(exportNotes()), function(result) {
+                saveButton.innerHTML = "Save";
+            });
+        }
     }
 }
 
@@ -35,7 +43,19 @@ function generateSaveCallback(noteId) {
 function generateDeleteCallback(noteId) {
     return function() {
         deleteNote(noteId);
-        window.location.href = window.location.origin + `/`;
+
+        if (isUserLoggedIn()) {
+            uploadNotes(JSON.stringify(exportNotes()), function(result) {
+                var response = JSON.parse(result.response);
+                if (!!response.error) {
+                    alert("Failed to delete note.");
+                } else {
+                    window.location.href = "./index.html";
+                }
+            });
+        } else {
+            window.location.href = "./index.html";
+        }
     }
 }
 
