@@ -98,4 +98,12 @@ describe("Model Tests", function() {
     //         done();
     //     });
     // });
+
+    describe("Login", function() {
+        it("should be able to check if users are logged in", function(done) {
+            logOff();
+            chai.assert.ok(!isUserLoggedIn());
+            done();
+        });
+    });
 });

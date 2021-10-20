@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Failproof Checklists</title>
+        <link rel="stylesheet" href="./css/mini-nord.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>
+            <a href="./index.html">FPCL</a>
+        </h1>
+        <div id="content">
+            <form>
+                <fieldset>
+                    <legend>Login</legend>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Username"/>
+                    <br/>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Password"/>
+                    <br/>
+                    <button type="button" name="button" id="login">Login</button>
+                </fieldset>
+            </form>
+            <a href="./signup.html">Sign Up Instead</a>
+        </div>
+        <script src="js/model/notes.js" charset="utf-8"></script>
+        <script src="js/model/users.js" charset="utf-8"></script>
+        <script src="js/view/login.js" charset="utf-8"></script>
+        <script type="text/javascript">
+            setup();
+        </script>
+    </body>
+</html>

@@ -29,13 +29,23 @@ function newNoteButtonClick() {
 }
 
 function setup() {
-    initDb();
+    // header and database setup
+    if (isUserLoggedIn()) {
 
-    // note list setup
+    } else {
+        initDb();
+
+        document.getElementById("header").innerHTML += `
+            <a href="./login.html">
+                <button type="button" name="button">Login</button>
+            </a>
+        `;
+    }
+
+    // content setup
     var content = document.getElementById("content");
     content.innerHTML = generateNoteIdList();
 
-    // new button setup
     var newNoteButton = document.getElementById("new-note-button");
     newNoteButton.addEventListener("click", newNoteButtonClick);
 }
