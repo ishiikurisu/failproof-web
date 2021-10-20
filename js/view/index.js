@@ -17,7 +17,7 @@ function generateNoteIdList() {
                 </li>
             `;
         }
-        outlet += `</ul>`
+        outlet += `</ul>`;
     }
 
     return outlet;
@@ -25,13 +25,15 @@ function generateNoteIdList() {
 
 function newNoteButtonClick() {
     var id = createNote();
-    window.location.href = `./note.html?id=${id}`
+    window.location.href = `./note.html?id=${id}`;
 }
 
 function setup() {
     // header and database setup
     if (isUserLoggedIn()) {
-
+        downloadNotes(function(result) {
+            importNotes(JSON.parse(JSON.parse(result.response).notes));
+        });
     } else {
         initDb();
 

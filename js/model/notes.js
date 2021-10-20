@@ -124,9 +124,17 @@ function exportNotes() {
  * @param backup JSON note backup
  */
 function importNotes(backup) {
-    var archiveIndex = [];
+    // removing existing notes in database
+    var archiveIndex = localStorage.getItem("index");
 
-    dropDb();
+    for (var i = 0; i < archiveIndex.length; i++) {
+        var noteId = archiveIndex[i];
+        localStorage.removeItem(noteIdKey(noteId));
+    }
+
+    // filling database with new notes
+    archiveIndex = [];
+
     for (let noteId in backup) {
         var note = backup[noteId];
         localStorage.setItem(noteIdKey(noteId), JSON.stringify(note));

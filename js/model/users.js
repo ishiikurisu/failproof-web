@@ -68,3 +68,30 @@ function createUser(username, password, notes, callback) {
     };
     request.send(JSON.stringify(data));
 }
+
+/**
+ * Downloads notes from database
+ * @param callback in backup format
+ */
+function downloadNotes(callback) {
+    var auth_key = localStorage.getItem("auth_key");
+    var request = new XMLHttpRequest();
+    request.open("GET", `${FPCL_API_URL}/notes?auth_key=${auth_key}`, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+    request.onload = function() {
+        callback(this);
+    };
+    request.onerror = function() {
+        alert("Oops");
+    };
+    request.send();
+}
+
+/**
+ * Upload notes to database
+ * @param notes notes in backup format
+ * @callback callback result from database call
+ */
+function uploadNotes(notes, callback) {
+
+}
