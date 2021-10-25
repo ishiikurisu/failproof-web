@@ -19,6 +19,12 @@
                 </h2>
                 <button type="button" name="button" id="save">Save</button>
                 <button type="button" name="button" id="delete">Delete</button>
+                <select id="kind" name="kind">
+                    <option value="txt" selected>Raw text</option>
+                    <option value="md">Markdown</option>
+                    <!-- <option value="table">Table</option> -->
+                </select>
+                <button type="button" name="button" id="toggle-edit">View</button>
             </div>
             <div class="note-content">
                 <div id="contents"
@@ -28,6 +34,7 @@
             </div>
         </div>
 
+        <script src="https://cdn.jsdelivr.net/remarkable/1.7.1/remarkable.min.js"></script>
         <script src="js/model/notes.js" charset="utf-8"></script>
         <script src="js/model/users.js" charset="utf-8"></script>
         <script src="js/view/note.js" charset="utf-8"></script>

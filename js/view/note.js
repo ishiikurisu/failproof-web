@@ -60,6 +60,48 @@ function generateDeleteCallback(noteId) {
 }
 
 /**
+ * Removes HTML markup from contents
+ * @param contents raw contents
+ * @returns clean contents text
+ */
+function cleanContents(contents) {
+    return contents.replace(/\<div\>/g, "").replace(/\<br\/?\>|\<\/div\>/g, "\n");
+}
+
+/**
+ * Generates a function that either renders markdown on contents div or allows
+ * contents to be edited
+ * @param noteId id from current note
+ * @returns function to be called by toggle-edit button
+ */
+function generateToggleEditCallback(noteId) {
+    return function() {
+        var contentsDiv = document.getElementById("contents");
+        var toggleEditButton = document.getElementById("toggle-edit");
+
+        if (contentsDiv.contentEditable === "true") {
+            var contents = contentsDiv.innerHTML;
+
+            updateNote(noteId, {
+                id: noteId,
+                title: document.getElementById("title").innerHTML,
+                contents: contents
+            });
+
+            // XXX what about the save button?
+            var md = new Remarkable();
+            contentsDiv.innerHTML = md.render(cleanContents(contents));
+            toggleEditButton.innerHTML = "Edit";
+            contentsDiv.contentEditable = "false";
+        } else {
+            contentsDiv.innerHTML = getNote(noteId).contents;
+            toggleEditButton.innerHTML = "View";
+            contentsDiv.contentEditable = "true";
+        }
+    }
+}
+
+/**
  * MAIN FUNCTION
  */
 function setup() {
@@ -70,4 +112,5 @@ function setup() {
     document.getElementById("contents").innerHTML = note.contents || "Get started!";
     document.getElementById("save").addEventListener("click", generateSaveCallback(noteId));
     document.getElementById("delete").addEventListener("click", generateDeleteCallback(noteId));
+    document.getElementById("toggle-edit").addEventListener("click", generateToggleEditCallback(noteId));
 }
