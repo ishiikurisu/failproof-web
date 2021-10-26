@@ -11,6 +11,45 @@ function findGetParameter(parameterName) {
     return result;
 }
 
+function unescapeHTML(escapedHTML) {
+    return escapedHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+}
+
+function formatTable(table) {
+    var outlet = "";
+    var i;
+
+    // identifying headers
+    var headers = [];
+    for (var key in table[0]) {
+        headers.push(key);
+    }
+
+    // formating header
+    outlet = "|";
+    for (i = 0; i < headers.length; i++) {
+        outlet += ` ${headers[i]} |`;
+    }
+    outlet += "\n|";
+    for (i = 0; i < headers.length; i++) {
+        outlet += `----|`;
+    }
+    outlet += "\n";
+
+    // formatting rows
+    for (i = 0; i < table.length; i++) {
+        var row = table[i];
+
+        outlet += "|";
+        for (var key in row) {
+            outlet += ` ${row[key]} |`;
+        }
+        outlet += "\n";
+    }
+
+    return outlet;
+}
+
 /**
  * Generates a callback to the save button
  * @param noteId id from the note that will be edited
@@ -19,11 +58,14 @@ function findGetParameter(parameterName) {
  */
 function generateSaveCallback(noteId) {
     return function() {
-        updateNote(noteId, {
-            id: noteId,
-            title: document.getElementById("title").innerHTML,
-            contents: document.getElementById("contents").innerHTML
-        });
+        if (document.getElementById("contents").contentEditable === "true") {
+            updateNote(noteId, {
+                id: noteId,
+                title: document.getElementById("title").innerHTML,
+                kind: document.getElementById("kind").value,
+                contents: document.getElementById("contents").innerHTML
+            });
+        }
 
         if (isUserLoggedIn()) {
             var saveButton = document.getElementById("save");
@@ -78,6 +120,7 @@ function generateToggleEditCallback(noteId) {
     return function() {
         var contentsDiv = document.getElementById("contents");
         var toggleEditButton = document.getElementById("toggle-edit");
+        var kindSelect = document.getElementById("kind");
 
         if (contentsDiv.contentEditable === "true") {
             var contents = contentsDiv.innerHTML;
@@ -85,18 +128,27 @@ function generateToggleEditCallback(noteId) {
             updateNote(noteId, {
                 id: noteId,
                 title: document.getElementById("title").innerHTML,
+                kind: kindSelect.value,
                 contents: contents
             });
 
-            // XXX what about the save button?
-            var md = new Remarkable();
-            contentsDiv.innerHTML = md.render(cleanContents(contents));
+            var outlet = cleanContents(contents);
+
+            if (document.getElementById("kind").value === "table") {
+                var xmdt = new ExtendedMarkdownTable();
+                outlet = formatTable(xmdt.extend(unescapeHTML(outlet)));
+            }
+
+            var md = new remarkable.Remarkable();
+            contentsDiv.innerHTML = md.render(outlet);
             toggleEditButton.innerHTML = "Edit";
             contentsDiv.contentEditable = "false";
+            kindSelect.disabled = "true";
         } else {
             contentsDiv.innerHTML = getNote(noteId).contents;
             toggleEditButton.innerHTML = "View";
             contentsDiv.contentEditable = "true";
+            kindSelect.disabled = null;
         }
     }
 }
@@ -112,5 +164,6 @@ function setup() {
     document.getElementById("contents").innerHTML = note.contents || "Get started!";
     document.getElementById("save").addEventListener("click", generateSaveCallback(noteId));
     document.getElementById("delete").addEventListener("click", generateDeleteCallback(noteId));
+    document.getElementById("kind").value = note.kind;
     document.getElementById("toggle-edit").addEventListener("click", generateToggleEditCallback(noteId));
 }

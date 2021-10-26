@@ -78,7 +78,7 @@ function updateNote(noteId, newNote) {
     var oldNote = getNote(noteId);
     localStorage.setItem(noteIdKey(noteId), JSON.stringify({
         id: noteId,
-        kind: oldNote.kind,
+        kind: newNote.kind || oldNote.kind,
         title: newNote.title || oldNote.title,
         contents: newNote.contents
     }));
