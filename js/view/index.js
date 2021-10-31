@@ -28,12 +28,22 @@ function newNoteButtonClick() {
     window.location.href = `./note.html?id=${id}`;
 }
 
+function logoffCallback() {
+    dropDb();
+    window.location.href = `./index.html`;
+}
+
 function setup() {
     // header and database setup
     if (isUserLoggedIn()) {
         downloadNotes(function(result) {
             importNotes(JSON.parse(JSON.parse(result.response).notes));
         });
+
+        document.getElementById("header").innerHTML += `
+            <button type="button" name="button" onclick="logoffCallback()">Log Off</button>
+        `;
+    
     } else {
         initDb();
 
