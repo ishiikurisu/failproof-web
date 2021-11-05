@@ -28,6 +28,16 @@ function newNoteButtonClick() {
     window.location.href = `./note.html?id=${id}`;
 }
 
+function syncCallback() {
+    var syncButton = document.getElementById("sync-button");
+    syncButton.innerHTML = "Syncing...";
+
+    downloadNotes(function(result) {
+        importNotes(JSON.parse(JSON.parse(result.response).notes));
+        syncButton.innerHTML = "Sync";
+    });
+}
+
 function logoffCallback() {
     dropDb();
     window.location.href = `./index.html`;
@@ -41,9 +51,10 @@ function setup() {
         });
 
         document.getElementById("header").innerHTML += `
+            <button type="button" name="button" id="sync-button" onclick="syncCallback()">Sync</button>
             <button type="button" name="button" onclick="logoffCallback()">Log Off</button>
         `;
-    
+
     } else {
         initDb();
 
@@ -55,9 +66,6 @@ function setup() {
     }
 
     // content setup
-    var content = document.getElementById("content");
-    content.innerHTML = generateNoteIdList();
-
-    var newNoteButton = document.getElementById("new-note-button");
-    newNoteButton.addEventListener("click", newNoteButtonClick);
+    document.getElementById("content").innerHTML = generateNoteIdList();
+    document.getElementById("new-note-button").addEventListener("click", newNoteButtonClick);
 }
