@@ -13,6 +13,12 @@ body {
 	height: 100%;
 }
 
+.note-content textarea {
+	box-sizing: border-box;
+	height: 90%;
+	width: 90%;
+}
+
 .editable {
 	width: 95%;
 	height: 95%;

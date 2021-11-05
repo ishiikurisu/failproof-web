@@ -50,6 +50,10 @@ function formatTable(table) {
     return outlet;
 }
 
+function isViewModeOn() {
+    return document.getElementById("toggle-edit").innerHTML === "View";
+}
+
 /**
  * Generates a callback to the save button
  * @param noteId id from the note that will be edited
@@ -58,14 +62,14 @@ function formatTable(table) {
  */
 function generateSaveCallback(noteId) {
     return function() {
-        if (document.getElementById("contents").contentEditable === "true") {
-            updateNote(noteId, {
-                id: noteId,
-                title: document.getElementById("title").innerHTML,
-                kind: document.getElementById("kind").value,
-                contents: document.getElementById("contents").innerHTML
-            });
-        }
+        updateNote(noteId, {
+            id: noteId,
+            title: document.getElementById("title").innerHTML,
+            kind: document.getElementById("kind").value,
+            contents: (isViewModeOn())?
+                document.getElementById("contents").value :
+                getNote(noteId).contents
+        });
 
         if (isUserLoggedIn()) {
             var saveButton = document.getElementById("save");
@@ -118,12 +122,15 @@ function cleanContents(contents) {
  */
 function generateToggleEditCallback(noteId) {
     return function() {
-        var contentsDiv = document.getElementById("contents");
+        var contentsText = null;
+        var contents = null;
         var toggleEditButton = document.getElementById("toggle-edit");
         var kindSelect = document.getElementById("kind");
+        var noteContents = document.getElementById("note-contents");
 
-        if (contentsDiv.contentEditable === "true") {
-            var contents = contentsDiv.innerHTML;
+        if (isViewModeOn()) {
+            contentsText = document.getElementById("contents");
+            contents = contentsText.value;
 
             updateNote(noteId, {
                 id: noteId,
@@ -140,14 +147,16 @@ function generateToggleEditCallback(noteId) {
             }
 
             var md = new remarkable.Remarkable();
-            contentsDiv.innerHTML = md.render(outlet);
+            noteContents.innerHTML = md.render(outlet);
             toggleEditButton.innerHTML = "Edit";
-            contentsDiv.contentEditable = "false";
             kindSelect.disabled = "true";
         } else {
-            contentsDiv.innerHTML = getNote(noteId).contents;
+            contentsText = document.createElement("textarea");
+            contentsText.id = "contents";
+            contentsText.value = getNote(noteId).contents;
+            noteContents.innerHTML = "";
+            noteContents.appendChild(contentsText);
             toggleEditButton.innerHTML = "View";
-            contentsDiv.contentEditable = "true";
             kindSelect.disabled = null;
         }
     }
@@ -161,7 +170,7 @@ function setup() {
     var note = getNote(noteId);
 
     document.getElementById("title").innerHTML = note.title;
-    document.getElementById("contents").innerHTML = note.contents || "Get started!";
+    document.getElementById("contents").value = note.contents || "Get started!";
     document.getElementById("save").addEventListener("click", generateSaveCallback(noteId));
     document.getElementById("delete").addEventListener("click", generateDeleteCallback(noteId));
     document.getElementById("kind").value = note.kind;
