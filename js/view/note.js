@@ -175,4 +175,7 @@ function setup() {
     document.getElementById("delete").addEventListener("click", generateDeleteCallback(noteId));
     document.getElementById("kind").value = note.kind;
     document.getElementById("toggle-edit").addEventListener("click", generateToggleEditCallback(noteId));
+    
+    setExistingTheme();
+    registerCycleThemeCallback();
 }

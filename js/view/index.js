@@ -68,4 +68,7 @@ function setup() {
     // content setup
     document.getElementById("content").innerHTML = generateNoteIdList();
     document.getElementById("new-note-button").addEventListener("click", newNoteButtonClick);
+    registerCycleThemeCallback();
+
+    setExistingTheme();
 }

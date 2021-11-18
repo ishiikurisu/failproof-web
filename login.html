@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Failproof Checklists</title>
-        <link rel="stylesheet" href="./css/mini-dark.min.css">
+        <link id="pagestyle" rel="stylesheet" href="./css/mini-dark.min.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
@@ -27,8 +27,10 @@
         </div>
         <script src="js/model/notes.js" charset="utf-8"></script>
         <script src="js/model/users.js" charset="utf-8"></script>
+        <script src="js/view/common.js" charset="utf-8"></script>
         <script src="js/view/login.js" charset="utf-8"></script>
         <script type="text/javascript">
+            setExistingTheme();
             setup();
         </script>
     </body>
