@@ -115,6 +115,28 @@ function cleanContents(contents) {
 }
 
 /**
+ * Replaces `[ ]` with unchecked checkboxes and `[x]` by checked checkboxes
+ * @param inlet HTML text
+ * @returns rendered HTML
+ */
+function renderCheckboxes(inlet) {
+    return inlet.replace(/\[ \] /g, "<input type=\"checkbox\" disabled=\"true\"></input>")
+                .replace(/\[x\] /g, "<input type=\"checkbox\" disabled=\"true\" checked></input>");
+}
+
+/**
+ * Turns markdown into HTML
+ * @param inlet raw markdown
+ * @returns rendered HTML
+ */
+function renderMarkdown(inlet) {
+    var md = new remarkable.Remarkable();
+    var html = md.render(inlet);
+    var outlet = renderCheckboxes(html);
+    return outlet;
+}
+
+/**
  * Generates a function that either renders markdown on contents div or allows
  * contents to be edited
  * @param noteId id from current note
@@ -141,13 +163,18 @@ function generateToggleEditCallback(noteId) {
 
             var outlet = cleanContents(contents);
 
-            if (document.getElementById("kind").value === "table") {
-                var xmdt = new ExtendedMarkdownTable();
-                outlet = formatTable(xmdt.extend(unescapeHTML(outlet)));
+            switch (document.getElementById("kind").value) {
+                case "table":
+                    var xmdt = new ExtendedMarkdownTable();
+                    outlet = renderMarkdown(formatTable(xmdt.extend(unescapeHTML(outlet))));
+                    break;
+                
+                default:  // markdown
+                    outlet = renderMarkdown(outlet);
+                    break;
             }
 
-            var md = new remarkable.Remarkable();
-            noteContents.innerHTML = md.render(outlet);
+            noteContents.innerHTML = outlet;
             toggleEditButton.innerHTML = "Edit";
             kindSelect.disabled = "true";
         } else {
