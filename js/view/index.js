@@ -43,6 +43,10 @@ function logoffCallback() {
     window.location.href = `./index.html`;
 }
 
+function saveButtonClick() {
+    window.location.href = `./backup.html`;
+}
+
 function setup() {
     // toolbar and database setup
     var header = document.getElementById("header");
@@ -73,6 +77,7 @@ function setup() {
     // content setup
     document.getElementById("content").innerHTML = generateNoteIdList();
     document.getElementById("new-note-button").addEventListener("click", newNoteButtonClick);
+    document.getElementById("save-button").addEventListener("click", saveButtonClick);
     registerCycleThemeCallback();
     setExistingTheme();
 }
