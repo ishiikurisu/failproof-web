@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Failproof Checklists</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css" integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">
         <link id="pagestyle" rel="stylesheet" href="./css/mini-dark.min.css">
         <link rel="stylesheet" href="./css/main.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +11,9 @@
     <body>
         <header>
             <a class="logo" href="./index.html">FPCL</a>
-            <button id="cycle-theme">X</button>
+            <button id="cycle-theme">
+                <i class="fa fa-sun-o" aria-hidden="true"></i>
+            </button>
         </header>
         <div class="content">
             <div class="header">
@@ -18,20 +21,26 @@
                      class="editable"
                      contentEditable="true">
                 </h2>
-                <button type="button" name="button" id="save">Save</button>
-                <button type="button" name="button" id="delete">Delete</button>
+                <button type="button" name="button" id="save">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                </button>
+                <button type="button" name="button" id="delete">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
+                <button type="button" name="button" id="toggle-edit">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                </button>
                 <select id="kind" name="kind">
                     <option value="md">Markdown</option>
                     <option value="table">Table</option>
                 </select>
-                <button type="button" name="button" id="toggle-edit">View</button>
             </div>
             <div class="note-content" id="note-contents">
                 <textarea id="contents">
                 </textarea>
             </div>
         </div>
-        
+
         <script src="js/vendor/remarkable.min.js"></script>
         <script src="js/vendor/extended-markdown-table.js"></script>
         <script src="js/model/notes.js" charset="utf-8"></script>
@@ -43,4 +52,3 @@
         </script>
     </body>
 </html>
-

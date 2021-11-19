@@ -30,11 +30,11 @@ function newNoteButtonClick() {
 
 function syncCallback() {
     var syncButton = document.getElementById("sync-button");
-    syncButton.innerHTML = "Syncing...";
+    syncButton.innerHTML = `<i class="fa fa-clock-o" aria-hidden="true"></i>`;
 
     downloadNotes(function(result) {
         importNotes(JSON.parse(JSON.parse(result.response).notes));
-        syncButton.innerHTML = "Sync";
+        syncButton.innerHTML = `<i class="fa fa-refresh" aria-hidden="true"></i>`;
     });
 }
 
@@ -44,23 +44,28 @@ function logoffCallback() {
 }
 
 function setup() {
-    // header and database setup
+    // toolbar and database setup
+    var header = document.getElementById("header");
     if (isUserLoggedIn()) {
         downloadNotes(function(result) {
             importNotes(JSON.parse(JSON.parse(result.response).notes));
         });
 
-        document.getElementById("header").innerHTML += `
-            <button type="button" name="button" id="sync-button" onclick="syncCallback()">Sync</button>
-            <button type="button" name="button" onclick="logoffCallback()">Log Off</button>
+        document.getElementById("toolbar").innerHTML += `
+            <button type="button" name="button" id="sync-button" onclick="syncCallback()">
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+            </button>
         `;
+        header.innerHTML += `<button type="button" name="button" onclick="logoffCallback()">
+            <i class="fa fa-user-times" aria-hidden="true"></i>
+        </button>`;
 
     } else {
         initDb();
 
-        document.getElementById("header").innerHTML += `
-            <a href="./login.html">
-                <button type="button" name="button">Login</button>
+        header.innerHTML += `
+            <a class="button" href="./login.html">
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
             </a>
         `;
     }
@@ -69,6 +74,5 @@ function setup() {
     document.getElementById("content").innerHTML = generateNoteIdList();
     document.getElementById("new-note-button").addEventListener("click", newNoteButtonClick);
     registerCycleThemeCallback();
-
     setExistingTheme();
 }

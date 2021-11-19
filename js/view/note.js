@@ -51,7 +51,7 @@ function formatTable(table) {
 }
 
 function isViewModeOn() {
-    return document.getElementById("toggle-edit").innerHTML === "View";
+    return document.getElementById("toggle-edit").innerHTML.includes("eye");
 }
 
 /**
@@ -73,9 +73,9 @@ function generateSaveCallback(noteId) {
 
         if (isUserLoggedIn()) {
             var saveButton = document.getElementById("save");
-            saveButton.innerHTML = "Uploading...";
+            saveButton.innerHTML = `<i class="fa fa-clock-o" aria-hidden="true"></i>`;
             uploadNotes(JSON.stringify(exportNotes()), function(result) {
-                saveButton.innerHTML = "Save";
+                saveButton.innerHTML = `<i class="fa fa-floppy-o" aria-hidden="true"></i>`;
             });
         }
     }
@@ -168,14 +168,14 @@ function generateToggleEditCallback(noteId) {
                     var xmdt = new ExtendedMarkdownTable();
                     outlet = renderMarkdown(formatTable(xmdt.extend(unescapeHTML(outlet))));
                     break;
-                
+
                 default:  // markdown
                     outlet = renderMarkdown(outlet);
                     break;
             }
 
             noteContents.innerHTML = outlet;
-            toggleEditButton.innerHTML = "Edit";
+            toggleEditButton.innerHTML = `<i class="fa fa-pencil" aria-hidden="true"></i>`;
             kindSelect.disabled = "true";
         } else {
             contentsText = document.createElement("textarea");
@@ -183,7 +183,7 @@ function generateToggleEditCallback(noteId) {
             contentsText.value = getNote(noteId).contents;
             noteContents.innerHTML = "";
             noteContents.appendChild(contentsText);
-            toggleEditButton.innerHTML = "View";
+            toggleEditButton.innerHTML = `<i class="fa fa-eye" aria-hidden="true"></i>`;
             kindSelect.disabled = null;
         }
     }
@@ -202,7 +202,7 @@ function setup() {
     document.getElementById("delete").addEventListener("click", generateDeleteCallback(noteId));
     document.getElementById("kind").value = note.kind;
     document.getElementById("toggle-edit").addEventListener("click", generateToggleEditCallback(noteId));
-    
+
     setExistingTheme();
     registerCycleThemeCallback();
 }
