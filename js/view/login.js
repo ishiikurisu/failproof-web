@@ -3,7 +3,7 @@ function setup() {
     loginButton.addEventListener("click", function() {
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
-        loginButton.innerHTML = "Logging in";
+        loginButton.innerHTML = "Logging in...";
         auth(username, password, function(result) {
             if (result.status === 200) {
                 var response = JSON.parse(result.response);
@@ -13,7 +13,7 @@ function setup() {
                         importNotes(notes);
                     }
                     logIn(response.auth_key);
-                    loginButton.innerHTML = "Redirecting to main page";
+                    loginButton.innerHTML = "Redirecting to main page...";
                     window.location.href = "./index.html";
                     return;
                 }
