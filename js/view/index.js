@@ -35,6 +35,7 @@ function syncCallback() {
     downloadNotes(function(result) {
         importNotes(JSON.parse(JSON.parse(result.response).notes));
         syncButton.innerHTML = `<i class="fa fa-refresh" aria-hidden="true"></i>`;
+        document.getElementById("content").innerHTML = generateNoteIdList();
     });
 }
 
