@@ -73,4 +73,39 @@ class ExtendedMarkdownTable {
 
         return outlet;
     }
+
+    toMarkdown(table) {
+        var outlet = "";
+        var i;
+
+        // identifying headers
+        var headers = [];
+        for (var key in table[0]) {
+            headers.push(key);
+        }
+
+        // formating header
+        outlet = "|";
+        for (i = 0; i < headers.length; i++) {
+            outlet += ` ${headers[i]} |`;
+        }
+        outlet += "\n|";
+        for (i = 0; i < headers.length; i++) {
+            outlet += `----|`;
+        }
+        outlet += "\n";
+
+        // formatting rows
+        for (i = 0; i < table.length; i++) {
+            var row = table[i];
+
+            outlet += "|";
+            for (var key in row) {
+                outlet += ` ${row[key]} |`;
+            }
+            outlet += "\n";
+        }
+
+        return outlet;
+    }
 }
