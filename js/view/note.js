@@ -1,3 +1,8 @@
+/**
+ * Gets a GET parameter from the URL
+ * @param parameterName the parameter key
+ * @returns the associated value, or null if no key is assigned to that parameter
+ */
 function findGetParameter(parameterName) {
     var result = null,
         tmp = [];
@@ -11,45 +16,10 @@ function findGetParameter(parameterName) {
     return result;
 }
 
-function unescapeHTML(escapedHTML) {
-    return escapedHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
-}
-
-function formatTable(table) {
-    var outlet = "";
-    var i;
-
-    // identifying headers
-    var headers = [];
-    for (var key in table[0]) {
-        headers.push(key);
-    }
-
-    // formating header
-    outlet = "|";
-    for (i = 0; i < headers.length; i++) {
-        outlet += ` ${headers[i]} |`;
-    }
-    outlet += "\n|";
-    for (i = 0; i < headers.length; i++) {
-        outlet += `----|`;
-    }
-    outlet += "\n";
-
-    // formatting rows
-    for (i = 0; i < table.length; i++) {
-        var row = table[i];
-
-        outlet += "|";
-        for (var key in row) {
-            outlet += ` ${row[key]} |`;
-        }
-        outlet += "\n";
-    }
-
-    return outlet;
-}
-
+/**
+ * Tells if the view mode is on by verifying the current state of the UI
+ * @returns true if the view mode is on, false otherwise
+ */
 function isViewModeOn() {
     return document.getElementById("toggle-edit").innerHTML.includes("eye");
 }
@@ -115,28 +85,6 @@ function cleanContents(contents) {
 }
 
 /**
- * Replaces `[ ]` with unchecked checkboxes and `[x]` by checked checkboxes
- * @param inlet HTML text
- * @returns rendered HTML
- */
-function renderCheckboxes(inlet) {
-    return inlet.replace(/\[ \] /g, "<input type=\"checkbox\" disabled=\"true\"></input>")
-                .replace(/\[x\] /g, "<input type=\"checkbox\" disabled=\"true\" checked></input>");
-}
-
-/**
- * Turns markdown into HTML
- * @param inlet raw markdown
- * @returns rendered HTML
- */
-function renderMarkdown(inlet) {
-    var md = new remarkable.Remarkable();
-    var html = md.render(inlet);
-    var outlet = renderCheckboxes(html);
-    return outlet;
-}
-
-/**
  * Generates a function that either renders markdown on contents div or allows
  * contents to be edited
  * @param noteId id from current note
@@ -161,20 +109,10 @@ function generateToggleEditCallback(noteId) {
                 contents: contents
             });
 
-            var outlet = cleanContents(contents);
-
-            switch (document.getElementById("kind").value) {
-                case "table":
-                    var xmdt = new ExtendedMarkdownTable();
-                    outlet = renderMarkdown(formatTable(xmdt.extend(unescapeHTML(outlet))));
-                    break;
-
-                default:  // markdown
-                    outlet = renderMarkdown(outlet);
-                    break;
-            }
-
-            noteContents.innerHTML = outlet;
+            noteContents.innerHTML = pipe(contents, [
+                cleanContents,
+                getViewFunction(document.getElementById("kind").value)
+            ]);
             toggleEditButton.innerHTML = `<i class="fa fa-pencil" aria-hidden="true"></i>`;
             kindSelect.disabled = "true";
         } else {
