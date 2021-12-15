@@ -35,6 +35,7 @@ function auth(username, password, callback) {
     };
     var request = new XMLHttpRequest();
     request.open("POST", `${FPCL_API_URL}/users/auth`, true);
+    request.setRequestHeader("Content-Type", "application/json");
     request.onload = function() {
         callback(this);
     };
@@ -59,7 +60,7 @@ function createUser(username, password, notes, callback) {
     };
     var request = new XMLHttpRequest();
     request.open("POST", `${FPCL_API_URL}/users/create`, true);
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+    request.setRequestHeader("Content-Type", "application/json");
     request.onload = function() {
         callback(this);
     };
@@ -100,7 +101,7 @@ function uploadNotes(notes, callback) {
     };
 
     request.open("POST", `${FPCL_API_URL}/notes`, true);
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+    request.setRequestHeader("Content-Type", "application/json");
     request.onload = function() {
         callback(this);
     };
