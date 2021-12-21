@@ -1,9 +1,17 @@
 function saveCallback() {
-    var rawBackup = document.getElementById("contents").innerHTML;
+    var ok = true;
+    var rawBackup = document.getElementById("contents").value;
     var backup = JSON.parse(rawBackup);
     importNotes(backup);
 
-    window.location.href = "./index.html";
+    if (isUserLoggedIn()) {
+        uploadNotes(JSON.stringify(exportNotes()), function(result) {
+            console.log(result);
+            window.location.href = "./index.html";
+        });
+    }
+
+    // window.location.href = "./index.html";
 }
 
 function setup() {
