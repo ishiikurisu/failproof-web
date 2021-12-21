@@ -24,3 +24,7 @@ body {
 	height: 95%;
 	margin: 10px;
 }
+
+.monospaced {
+	font-family: monospace;
+}
