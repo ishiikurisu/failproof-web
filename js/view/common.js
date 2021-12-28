@@ -48,7 +48,7 @@ function getCookie(name) {
  * deletes cookie
  * @param name cookie key
  */
-function eraseCookie(name) {   
+function eraseCookie(name) {
     document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
@@ -61,7 +61,7 @@ function eraseCookie(name) {
  * @param sheet href to new CSS file
  */
 function swapStyleSheet(sheet) {
-    document.getElementById("pagestyle").setAttribute("href", sheet);  
+    document.getElementById("pagestyle").setAttribute("href", sheet);
 }
 
 /**
@@ -73,12 +73,19 @@ function getCurrentTheme() {
 }
 
 /**
+ * Sets current theme
+ */
+function setTheme(theme) {
+    swapStyleSheet(STYLESHEET_BY_THEME[theme]);
+    setCookie("theme", theme, 60);
+}
+
+/**
  * cycles stylesheets depending on current theme
  */
 function toggleTheme() {
     const theme = THEME_CYCLE[getCurrentTheme()];
-    swapStyleSheet(STYLESHEET_BY_THEME[theme]);
-    setCookie("theme", theme, 60);
+    setTheme(theme);
 }
 
 /**

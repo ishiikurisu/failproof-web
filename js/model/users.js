@@ -111,3 +111,29 @@ function uploadNotes(notes, callback) {
 
     request.send(JSON.stringify(data));
 }
+
+/**
+ * Uses the current auth key to update the user's password
+ * @param oldPassword the old password
+ * @param newPassoword the old password
+ * @param callback function to be called with the result of the operation
+ */
+function updatePassword(oldPassword, newPassword, callback) {
+    var request = new XMLHttpRequest();
+    var data = {
+        "auth_key": localStorage.getItem("auth_key"),
+        "old_password": oldPassword,
+        "new_password": newPassword
+    };
+
+    request.open("POST", `${FPCL_API_URL}/users/password`, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.onload = function() {
+        callback(JSON.parse(this.response));
+    };
+    request.onerror = function() {
+        callback({error: "Request failed :("})
+    };
+
+    request.send(JSON.stringify(data));
+}

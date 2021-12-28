@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Failproof Checklists</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css" integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">
+        <link id="pagestyle" rel="stylesheet" href="./css/mini-dark.min.css">
+        <link rel="stylesheet" href="./css/main.css">
+        <link rel="shortcut icon" href="/img/logo.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <header id="header">
+            <a href="./index.html" class="logo">FPCL</a>
+        </header>
+        <div id="content">
+            <h1>Change Password</h1>
+            <form>
+                <input type="password" id="old-password" placeholder="Old password"><br>
+                <input type="password" id="new-password" placeholder="New password"><br>
+                <input type="password" id="new-password-again" placeholder="New password again"><br>
+                <button type="button" name="button" id="change-password-button">Change Password</button><br>
+            </form>
+            <p id="result"></p>
+            <hr>
+
+            <h1>Change Theme</h1>
+            <input type="radio" name="theme" id="nord-theme-radio" value="nord">
+            <label for="nord">Light</label>
+            <input type="radio" name="theme" id="dark-theme-radio" value="dark">
+            <label for="dark">Dark</label>
+            <hr>
+
+            <h1>Log Off</h1>
+            <button type="button" name="button" id="logoff-button">Log Off</button>
+        </div>
+        <script src="js/model/notes.js" charset="utf-8"></script>
+        <script src="js/model/users.js" charset="utf-8"></script>
+        <script src="js/view/common.js" charset="utf-8"></script>
+        <script src="js/view/profile.js" charset="utf-8"></script>
+        <script type="text/javascript">
+            setup();
+        </script>
+    </body>
+</html>
