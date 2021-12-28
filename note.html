@@ -12,9 +12,22 @@
     <body>
         <header>
             <a class="logo" href="./index.html">FPCL</a>
-            <button id="cycle-theme">
-                <i class="fa fa-sun-o" aria-hidden="true"></i>
+            <a class="button" id="profile-link" href="./login.html">
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+            </a>
+            <button type="button" name="button" id="save">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>
             </button>
+            <button type="button" name="button" id="delete">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </button>
+            <button type="button" name="button" id="toggle-edit">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+            </button>
+            <select id="kind" name="kind">
+                <option value="md">Markdown</option>
+                <option value="table">Table</option>
+            </select>
         </header>
         <div class="content">
             <div class="header">
@@ -22,19 +35,6 @@
                      class="editable"
                      contentEditable="true">
                 </h2>
-                <button type="button" name="button" id="save">
-                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                </button>
-                <button type="button" name="button" id="delete">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </button>
-                <button type="button" name="button" id="toggle-edit">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </button>
-                <select id="kind" name="kind">
-                    <option value="md">Markdown</option>
-                    <option value="table">Table</option>
-                </select>
             </div>
             <div class="note-content" id="note-contents">
                 <textarea id="contents">

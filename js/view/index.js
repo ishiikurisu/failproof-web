@@ -56,29 +56,21 @@ function setup() {
             importNotes(JSON.parse(JSON.parse(result.response).notes));
         });
 
-        document.getElementById("toolbar").innerHTML += `
+        header.innerHTML += `
             <button type="button" name="button" id="sync-button" onclick="syncCallback()">
                 <i class="fa fa-refresh" aria-hidden="true"></i>
             </button>
         `;
-        header.innerHTML += `<button type="button" name="button" onclick="logoffCallback()">
-            <i class="fa fa-user-times" aria-hidden="true"></i>
-        </button>`;
 
+        document.getElementById("profile-link").setAttribute("href", "./profile.html");
     } else {
         initDb();
 
-        header.innerHTML += `
-            <a class="button" href="./login.html">
-                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-            </a>
-        `;
     }
 
     // content setup
     document.getElementById("content").innerHTML = generateNoteIdList();
     document.getElementById("new-note-button").addEventListener("click", newNoteButtonClick);
     document.getElementById("save-button").addEventListener("click", saveButtonClick);
-    registerCycleThemeCallback();
     setExistingTheme();
 }

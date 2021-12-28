@@ -141,6 +141,9 @@ function setup() {
     document.getElementById("kind").value = note.kind;
     document.getElementById("toggle-edit").addEventListener("click", generateToggleEditCallback(noteId));
 
+    if (isUserLoggedIn()) {
+        document.getElementById("profile-link").setAttribute("href", "./profile.html");
+    }
+
     setExistingTheme();
-    registerCycleThemeCallback();
 }
