@@ -28,3 +28,11 @@ body {
 .monospaced {
 	font-family: monospace;
 }
+
+a.note-link {
+	color: var(--fore-color);
+}
+
+a.note-link:visited {
+	color: var(--fore-color);
+}

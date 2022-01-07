@@ -7,17 +7,21 @@ function generateNoteIdList() {
     `;
 
     if (noteIndex.length > 0) {
-        outlet = `<ul>`;
+        outlet = `<div class="row">`;
         for (var i = 0; i < noteIndex.length; i++) {
             var noteId = noteIndex[i];
             var note = getNote(noteId);
             outlet += `
-                <li>
-                    <a href="note.html?id=${noteId}">${note.title}</a>
-                </li>
+                <div class="card">
+                    <h5>
+                        <a class="note-link" href="note.html?id=${noteId}">
+                            ${note.title}
+                        </a>
+                    </h5>
+                </div>
             `;
         }
-        outlet += `</ul>`;
+        outlet += `</div>`;
     }
 
     return outlet;
