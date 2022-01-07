@@ -4,19 +4,25 @@ body {
 }
 
 .content {
-	width: 100%;
-	height: 100%;
+	display: flex;
+	flex-flow: column;
+	height: 95%;
 }
 
 .note-content {
-	width: 100%;
+	flex: 1 1 auto;
 	height: 100%;
+	width: 95%;
+	margin: auto;
+	padding: 0;
 }
 
 .note-content textarea {
 	box-sizing: border-box;
-	height: 90%;
-	width: 90%;
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 .editable {
